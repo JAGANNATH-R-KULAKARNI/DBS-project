@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import CastConnectedIcon from '@material-ui/icons/CastConnected';
 
 function Copyright() {
   return (
@@ -55,14 +56,25 @@ export default function SignUp(props) {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <CastConnectedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Connect
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
-            
+          <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="username"
+                label="username"
+                name="username"
+                autoComplete="username"
+                onChange={props.signUpStateChangeHandle}
+              />
+            </Grid> 
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -89,9 +101,16 @@ export default function SignUp(props) {
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="info"
+                label="More info about you"
+                type="text"
+                id="text"
+                autoComplete="text"
+                onChange={props.signUpStateChangeHandle}
               />
             </Grid>
           </Grid>

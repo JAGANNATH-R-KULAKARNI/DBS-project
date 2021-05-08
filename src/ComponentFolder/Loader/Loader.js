@@ -1,14 +1,11 @@
-import React,{Component} from 'react';
-import './Loader.css';
+import React from 'react';
+import Classes from './Loader.css';
 
-class Loader extends Component
+const spinner = () =>
 {
-    render()
-    {
-        return (
-            <div className="loader">Loading...</div>
-        );
-    }
+  return (
+    <div className={Classes.Loader}>Loading...</div>
+  );    
 };
 
-export default Loader;
+export default spinner;

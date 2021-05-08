@@ -1,14 +1,16 @@
 import firebase from 'firebase';
+import 'firebase/storage';
 
 var firebaseConfig = {
-  apiKey: "AIzaSyA9E6nwCgNYGcufVciH37Naokk4o_wq_SQ",
-  authDomain: "meme-generator-c0524.firebaseapp.com",
-  projectId: "meme-generator-c0524",
-  storageBucket: "meme-generator-c0524.appspot.com",
-  messagingSenderId: "1086016412780",
-  appId: "1:1086016412780:web:e4e0f53ff3c4d5120c8c49",
-  measurementId: "G-CWCT3CPZSH"
+  apiKey: "AIzaSyBMEtBBrtJt0gLkh1PsekHwLPBaLWDBOEo",
+  authDomain: "connect-ca4c1.firebaseapp.com",
+  projectId: "connect-ca4c1",
+  storageBucket: "connect-ca4c1.appspot.com",
+  messagingSenderId: "722283663185",
+  appId: "1:722283663185:web:c2b139cda70ae6d130cd70",
+  measurementId: "G-RFYQ87VT14"
 };
+
 // Initialize Firebase
 const fire=firebase.initializeApp(firebaseConfig);
 

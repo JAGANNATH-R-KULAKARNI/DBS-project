@@ -1,0 +1,173 @@
+import React from 'react';
+import firebase from '../../../Firebase/firebase';
+import Channel from './Channel/channel';
+import Chat from './Channel/chat';
+import TextField from './Channel/textField';
+import Send from './Channel/sendButton';
+import Spinner from '../../Loader/Loader';
+
+//const messagesEndRef = React.createRef()
+
+class Body2 extends React.Component
+{
+     
+    constructor()
+    {
+        super();
+        this.state={
+            userName : '',
+            info : '',
+            dateOfSignUp : null,
+            finalChats : null,
+            chatLength : 0,
+            spinner : false
+        }
+       
+     this.handleClick=this.handleClick.bind(this);
+     this.updateChats=this.updateChats.bind(this);
+     this.scrollToBottom=this.scrollToBottom.bind(this);
+     this.deleteChatHandler=this.deleteChatHandler.bind(this);
+    }
+  
+  
+    deleteChatHandler(id)
+    {
+      console.log("deleteChatHandler");
+      console.log(id);
+       var docID=''+id;
+
+      firebase.firestore().collection('messages').doc(docID).delete()
+    .then((u)=>{
+    console.log("Document is successfully deleted");
+    })
+     .catch((err)=>{
+    console.log("something went wrong");
+})
+    }
+
+    scrollToBottom (){
+
+        console.log("scrolling");
+        document.getElementById('chatsTextField').scrollIntoView({ behavior: "smooth" });
+       }
+ 
+
+    updateChats(data)
+    {
+        /*
+        const finalChats=data.map((item)=>{
+         return <Chat name={item['username']} time={item['createdAt'] } text={item['text']}/>;
+        });
+        */
+        console.log("updateChats function chatsUpdating");
+        this.setState({finalChats : data});
+        this.scrollToBottom();
+    }
+
+    handleClick(text)
+    {
+        var today = new Date(),
+        time = today.getHours() + ':' + today.getMinutes()+ '     ['+today.getDate()+'/'+today.getMonth()+'/'+today.getFullYear()+']';
+
+        var docData = {
+            text : text,
+            createdAt :  time,
+            email : this.props.email,
+            exactTimeToSort : today.getTime(),
+            username : this.state.username,
+            info : this.state.info,
+            dateOfSignUp : this.state.dateOfSignUp
+        };
+
+
+        firebase.firestore().collection("messages").doc(today.getTime().toString()).set(docData).then(() => {
+            console.log("Document successfully written!");
+        })
+        .catch((err)=>{
+            console.log("There was some error in uploading");
+        });
+ 
+    
+    }
+    
+    componentDidMount()
+    {
+        this.setState({spinner : true});
+        firebase.firestore().collection('users').doc(this.props.email).get()
+        .then((u)=>{
+            console.log("componentDidMount success usernameRetrieval");
+            console.log(u.data());
+          this.setState({
+              username : u.data()['username'],
+              info : u.data()['info'],
+              dateOfSignUp : u.data()['dateOfSignUp'],
+            });
+            
+          })
+        .catch((err)=>console.log("componentDidMount error usernameRetrieval"));
+
+        firebase.firestore().collection('messages').orderBy('exactTimeToSort').limit(100)
+        .onSnapshot(querySnapshot => {
+            console.log("componentDidMount messages success chatsRetrieval");
+         const data = querySnapshot.docs.map(doc => ({
+             ...doc.data(),
+             id: doc.id,
+           }));
+ 
+           console.log(data);
+           console.log(data.length);
+          this.setState({
+              chatLength : data.length,
+              spinner : false
+            });
+          this.updateChats(data);
+       })
+       this.scrollToBottom();
+    }
+  
+    componentDidUpdate(prevProps, prevState)
+    {
+       firebase.firestore().collection('messages').orderBy('exactTimeToSort').limit(100)
+       .onSnapshot(querySnapshot => {
+           console.log("componentDidUpdate success messages retrieval");
+        const data = querySnapshot.docs.map(doc => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+
+          console.log(data);
+          console.log(data.length);
+          console.log(this.state.chatLength);
+       //   const len=prevState.data ? prevState.data.length : 0;
+          if(this.state.chatLength !== data.length)
+          {     
+         this.setState({chatLength : data.length});
+         this.updateChats(data);
+          }
+          
+      });
+
+    }
+
+  
+    render()
+    {
+       const body=(this.state.spinner ? <Spinner /> : 
+        <Channel 
+        handleClick={this.handleClick} 
+        finalChats={this.state.finalChats} 
+        email={this.props.email}
+        deleteChatHandler={this.deleteChatHandler}
+        />
+        );
+
+        return (
+            <div>
+                {body}
+                <div id="chatsTextField"/>
+         </div>
+        );
+    }
+};
+
+export default Body2;

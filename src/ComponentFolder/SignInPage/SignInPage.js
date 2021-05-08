@@ -13,6 +13,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Logo from '../Images/connect.png';
+import CastConnectedIcon from '@material-ui/icons/CastConnected';
 
 function Copyright() {
   return (
@@ -33,6 +35,8 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
+    width: "50%",
+    height: "600px",
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -68,10 +72,10 @@ export default function SignInSide(props) {
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+            <CastConnectedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Connect
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
@@ -98,10 +102,7 @@ export default function SignInSide(props) {
               autoComplete="current-password"
               onChange={props.signInStateChangeHandle}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            
             <Button
               type="submit"
               fullWidth
@@ -114,7 +115,7 @@ export default function SignInSide(props) {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" onClick={props.forgotPasswordHandle}>
                   Forgot password?
                 </Link>
               </Grid>
