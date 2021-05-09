@@ -22,7 +22,6 @@ export default function IconLabelButtons(props) {
         variant="contained"
         color="secondary"
         className={classes.button}
-        startIcon={<DeleteIcon />}
       >
        {props.buttonMessage}
       </Button>

@@ -5,7 +5,6 @@ import fire from '../../Firebase/firebase';
 import Home from '../HomePage/HomePage';
 import Loader from '../Loader/Loader';
 import Modal from '../Modal/Modal';
-//import axios from 'axios';
 
 class Layout extends Component
 {
@@ -54,7 +53,7 @@ class Layout extends Component
      this.setState({
         Modal : true,
         messageType : 'info',
-        modalMessage : 'Do you want to logOut vro :(',
+        modalMessage : 'Do you want to logOut',
      })
     }
 
@@ -89,7 +88,7 @@ class Layout extends Component
                 homePage : false,
                 isSigninpage : true,
                 messageType : 'success',
-                modalMessage : 'You are successfully signed out Vro',
+                modalMessage : 'You are successfully signed out',
                 modalOKtoggleButton : !this.state.modalOKtoggleButton,
                 Modal : true,
                 email : '',
@@ -111,6 +110,7 @@ class Layout extends Component
     handleSignIn(e)
     {
         e.preventDefault();
+
         this.setState({loader : true});
         fire.auth().signInWithEmailAndPassword(this.state.email,this.state.password)
         .then((u) =>{
@@ -119,7 +119,7 @@ class Layout extends Component
                 loader : false,
                 isSigninpage : false,
                 messageType : 'success',
-                modalMessage : 'You are successfully signed in Vro :)',
+                modalMessage : 'You are successfully signed in',
                 Modal : true,
                 homePage : true
             });
@@ -130,7 +130,7 @@ class Layout extends Component
                 loader : false,
                 isSigninpage : true,
                 messageType : 'error',
-                modalMessage : err['code']+"    , Try again vro :(",
+                modalMessage : err['code']+"    , Try again",
                 Modal : true,
                 homePage : false
             });
@@ -141,16 +141,19 @@ class Layout extends Component
     handleSignUp(e)
     {
         e.preventDefault();
-        var today = new Date(),
-        time = today.getDate()+'/'+today.getMonth()+'/'+today.getFullYear();
-
+        var today = new Date();
+         var month = today.getMonth() + 1;// it gives previos month so add 1
+        var time = today.getDate()+'/'+month+'/'+today.getFullYear();
+      //  var encrypName = CryptoJS.AES.encrypt(this.state.username, "Ashendus Superius");
+    //    var encrypEmail = CryptoJS.AES.encrypt(this.state.email, "Ashendus Superius");
+        //var encrypInfo= CryptoJS.AES.encrypt(this.state.info, "Ashendus Superius");
+ 
         this.setState({loader : true})
-        setTimeout(() => {
-            this.setState({loader : false});
-          }, 300);
+     
        fire.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
        .then((u) =>{
         console.log(u);
+        console.log("22:47");
         fire.firestore().collection("users").doc(this.state.email).set({
             username : this.state.username,
             info : this.state.info,
@@ -158,9 +161,10 @@ class Layout extends Component
         }).then(() => {
             console.log("Document successfully written!");
             this.setState({
+                loader : false,
                 isSigninpage : true,
                 messageType : 'success',
-                modalMessage : 'You are successfully signed Up Vro :) Now Sign In again',
+                modalMessage : 'You are successfully signed Up Now Sign In again',
                 Modal : true,
                 signUpPage : false
             }); 
@@ -182,7 +186,7 @@ class Layout extends Component
            this.setState({
             loader : false,
             messageType : 'error',
-            modalMessage : err['code']+"    , Try again vro :(",
+            modalMessage : err['code']+"    , Try again",
             Modal : true
         });
        });
@@ -221,7 +225,7 @@ class Layout extends Component
 
             const LOADER= <Loader />
             const homePage=(this.state.homePage ? 
-            <Home logOutHandle={this.logOutHandle} email={this.state.email}/> : LoginPage);
+            <Home logOutHandle={this.logOutHandle} email={this.state.email} password={this.state.password}/> : LoginPage);
 
         return (
             <div>

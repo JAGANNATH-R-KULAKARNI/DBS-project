@@ -20,14 +20,3 @@ class Profile extends Component
 };
 
 export default Profile;
-/*
-<div style={{width : "100%",marginLeft: "auto",
-marginRight: "auto"}}>
-                <AvatarImage label={this.props.name}/>
-              </div>
-               <Chip label={this.props.name}/>
-               <Chip label={this.props.email}/>
-       
-       <h4>About : #Awesome</h4>
-       <ButtonOK />
-       */

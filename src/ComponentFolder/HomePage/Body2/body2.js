@@ -5,8 +5,8 @@ import Chat from './Channel/chat';
 import TextField from './Channel/textField';
 import Send from './Channel/sendButton';
 import Spinner from '../../Loader/Loader';
+import CryptoJS from "react-native-crypto-js";
 
-//const messagesEndRef = React.createRef()
 
 class Body2 extends React.Component
 {
@@ -59,18 +59,30 @@ class Body2 extends React.Component
          return <Chat name={item['username']} time={item['createdAt'] } text={item['text']}/>;
         });
         */
-        console.log("updateChats function chatsUpdating");
-        this.setState({finalChats : data});
+     
+        this.setState({finalChats :data});
+
         this.scrollToBottom();
     }
 
     handleClick(text)
     {
-        var today = new Date(),
-        time = today.getHours() + ':' + today.getMinutes()+ '     ['+today.getDate()+'/'+today.getMonth()+'/'+today.getFullYear()+']';
-
+        var today = new Date();
+        var month=today.getMonth()+1;
+        var time = today.getHours() + ':' + today.getMinutes()+ '     ['+today.getDate()+'/'+month+'/'+today.getFullYear()+']';
+        console.log("testing encryption");
+        console.log(text);
+      //  var encrypted = CryptoJS.AES.encrypt(text, "Secret Passphrase");
+     //   console.log(encrypted);
+    //    console.log("encryped form string : ",encrypted.toString())
+      //  var decrypted = CryptoJS.AES.decrypt(encrypted, "Secret Passphrase");
+      //  console.log(decrypted);
+  //    var decrypted = CryptoJS.AES.decrypt(encrypted.toString(), "Secret Passphrase");
+//console.log("final result : ",decrypted.toString(CryptoJS.enc.Utf8)); // UTF-8 encoded
+//console.log(CryptoJS.enc.Utf8.stringify(decrypted)); // UTF-8 encoded
+        var encryptedText = CryptoJS.AES.encrypt(text,this.props.password);
         var docData = {
-            text : text,
+            text : encryptedText.toString(),
             createdAt :  time,
             email : this.props.email,
             exactTimeToSort : today.getTime(),
@@ -97,6 +109,10 @@ class Body2 extends React.Component
         .then((u)=>{
             console.log("componentDidMount success usernameRetrieval");
             console.log(u.data());
+            var decryptUsername = CryptoJS.AES.decrypt(u.data()['username'].toString(),this.props.password);
+            var decryptInfo = CryptoJS.AES.decrypt(u.data()['info'].toString(),this.props.password);
+            var decryptDateofsignup = CryptoJS.AES.decrypt(u.data()['dateOfSignUp'].toString(),this.props.password);
+
           this.setState({
               username : u.data()['username'],
               info : u.data()['info'],
@@ -146,7 +162,8 @@ class Body2 extends React.Component
           }
           
       });
-
+   //   console.log("final chats vro")
+     //console.log(this.state.finalChats)
     }
 
   
@@ -158,6 +175,7 @@ class Body2 extends React.Component
         finalChats={this.state.finalChats} 
         email={this.props.email}
         deleteChatHandler={this.deleteChatHandler}
+        password={this.props.password}
         />
         );
 

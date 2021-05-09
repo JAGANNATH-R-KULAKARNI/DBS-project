@@ -19,6 +19,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import CastConnectedIcon from '@material-ui/icons/CastConnected';
 import PropTypes from 'prop-types';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 const drawerWidth = 240;
 
 
@@ -101,11 +102,10 @@ export default function PersistentDrawerLeft(props) {
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={props.drawerOpen}
             edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
           >
-            <CastConnectedIcon />
+          {props.status ?   <CastConnectedIcon  onClick={props.drawerOpen}/> : <ArrowBackIosIcon onClick={props.arrowBackButtonHandler}/>}
           </IconButton>
          
           <div style={{paddingLeft : '40px'}}/>

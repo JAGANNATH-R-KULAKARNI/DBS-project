@@ -112,6 +112,7 @@ this.setState({
       email={this.props.email}
       profileModalHandler={this.profileModalHandler}
       deleteChatClickHandlerChannel={this.deleteChatClickHandlerChannel}
+      password={this.props.password}
       />
       
      

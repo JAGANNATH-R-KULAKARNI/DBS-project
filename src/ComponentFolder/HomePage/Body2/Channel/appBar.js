@@ -20,7 +20,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import TextField from './textField';
 import Send from './sendButton';
 import Chat from './chat';
-
+import CryptoJS from "react-native-crypto-js";
 
 const useStyles = makeStyles((theme) => ({
   text: {
@@ -68,9 +68,11 @@ export default function BottomAppBar(props) {
           <div style={{padding : "10px 10px 10px 10px"}}>
         {
          props.finalChats ? props.finalChats.map((item)=>{
-         return <Chat label={item['username']} name={props.email === item['email'] ? "You" :item['username']} time={item['createdAt'] } text={item['text']} 
+          var DecryptedText = CryptoJS.AES.decrypt(item['text'],props.password);
+          var decryptedText=DecryptedText.toString(CryptoJS.enc.Utf8);
+         return <Chat label={item['username']} name={props.email === item['email'] ? "You" : item['username']} time={item['createdAt']} text={decryptedText} 
          color={props.email === item['email'] ? "primary" : "secondary"} profileModalHandler={props.profileModalHandler} email={item['email']}
-          info={item['info']} dateOfSignUp={item['dateOfSignUp']} exactTimeToSort={item['exactTimeToSort']} deleteChatClickHandlerChannel={props.deleteChatClickHandlerChannel}/>;
+          info={item['info']} dateOfSignUp={item['dateOfSignUp']} key={item['exactTimeToSort']} exactTimeToSort={item['exactTimeToSort']} deleteChatClickHandlerChannel={props.deleteChatClickHandlerChannel}/>;
          }) : null
        }
        </div>

@@ -22,6 +22,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CastConnectedIcon from '@material-ui/icons/CastConnected';
 import PropTypes from 'prop-types';
 import HOMEPAGEUI from './HomePage2UI';
+import ProfileButton from '../Profile/profileButton';
+import Profile from '../Profile/Profile';
 
 const drawerWidth = 240;
 
@@ -37,6 +39,7 @@ const useStyles = makeStyles({
 
 export default function SwipeableTemporaryDrawer(props) {
   const classes = useStyles();
+  const [Status, setStatus] = React.useState(true);
   const [state, setState] = React.useState({
     left: false
   });
@@ -46,6 +49,13 @@ export default function SwipeableTemporaryDrawer(props) {
     toggleDrawer('left', false);
   }
 
+  const arrowBackButtonHandler = () =>{
+    setStatus(true);
+  }
+  const profileButtonHandle = () =>{
+    setStatus(false);
+    toggleDrawer('left',false);
+  }
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -70,6 +80,12 @@ export default function SwipeableTemporaryDrawer(props) {
       <br />
       <Divider />
       <List>
+        <div onClick={profileButtonHandle} style={{textAlign : "center"}}>
+        <ProfileButton />
+        </div>
+      </List>
+      <Divider />
+      <List>
       <div onClick={logOutButtonClick} style={{textAlign : "center"}}>
               {props.logOutButton}
         </div>
@@ -84,7 +100,7 @@ export default function SwipeableTemporaryDrawer(props) {
   return (
     <div>
     <div>
-    <HOMEPAGEUI drawerOpen={toggleDrawer('left', true)}/>
+    <HOMEPAGEUI drawerOpen={toggleDrawer('left', true)} status={Status} arrowBackButtonHandler={arrowBackButtonHandler}/>
     <SwipeableDrawer
             anchor='left'
             open={state['left']}
@@ -95,7 +111,7 @@ export default function SwipeableTemporaryDrawer(props) {
           </SwipeableDrawer>
       </div>
       <div style={{paddingLeft : '20px'}}>
-      {props.body}
+      {Status ? props.body : <Profile />}
       </div>
     </div>
   );

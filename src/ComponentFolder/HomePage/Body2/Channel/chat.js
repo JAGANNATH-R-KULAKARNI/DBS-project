@@ -7,6 +7,7 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Avatar from '@material-ui/core/Avatar';
 import {BrowserRouter as Router,Switch,Route,Link} from "react-router-dom";
 import Tooltip from '@material-ui/core/Tooltip';
+import HttpsIcon from '@material-ui/icons/Https';
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -24,6 +25,11 @@ export default function ButtonSizes(props) {
   return (
     <div>
         <Router>
+        <Tooltip title="End-To-End Encrypted">
+    <IconButton aria-label="End-To-End Encrypted">
+     <HttpsIcon />
+     </IconButton>
+     </Tooltip>
         <Button variant="contained" color={props.color}>
             <div style={{paddingRight : "10px"}}>
         <Avatar alt={props.label} src="/static/images/avatar/3.jpg" />
