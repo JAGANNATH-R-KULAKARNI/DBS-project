@@ -5,6 +5,7 @@ import fire from '../../Firebase/firebase';
 import Home from '../HomePage/HomePage';
 import Loader from '../Loader/Loader';
 import Modal from '../Modal/Modal';
+import CryptoJS from "react-native-crypto-js";
 
 class Layout extends Component
 {
@@ -144,20 +145,19 @@ class Layout extends Component
         var today = new Date();
          var month = today.getMonth() + 1;// it gives previos month so add 1
         var time = today.getDate()+'/'+month+'/'+today.getFullYear();
-      //  var encrypName = CryptoJS.AES.encrypt(this.state.username, "Ashendus Superius");
-    //    var encrypEmail = CryptoJS.AES.encrypt(this.state.email, "Ashendus Superius");
-        //var encrypInfo= CryptoJS.AES.encrypt(this.state.info, "Ashendus Superius");
+        var encrypName = CryptoJS.AES.encrypt(this.state.username,this.state.password);
+        var encrypDateOfSignUp = CryptoJS.AES.encrypt(time,this.state.password);
+        var encrypInfo= CryptoJS.AES.encrypt(this.state.info,this.state.password);
  
         this.setState({loader : true})
      
        fire.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
        .then((u) =>{
         console.log(u);
-        console.log("22:47");
         fire.firestore().collection("users").doc(this.state.email).set({
-            username : this.state.username,
-            info : this.state.info,
-            dateOfSignUp : time
+            username : encrypName.toString(),
+            info : encrypInfo.toString(),
+            dateOfSignUp : encrypDateOfSignUp.toString()
         }).then(() => {
             console.log("Document successfully written!");
             this.setState({

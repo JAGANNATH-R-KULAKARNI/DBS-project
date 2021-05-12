@@ -84,20 +84,20 @@ class Body2 extends React.Component
 //console.log("final result : ",decrypted.toString(CryptoJS.enc.Utf8)); // UTF-8 encoded
 //console.log(CryptoJS.enc.Utf8.stringify(decrypted)); // UTF-8 encoded
        var encryptedText = CryptoJS.AES.encrypt(text,this.props.password);
-       /* var encryptedCreatedAt = CryptoJS.AES.encrypt(time,this.props.password);
+        var encryptedCreatedAt = CryptoJS.AES.encrypt(time,this.props.password);
         var encryptedEmail = CryptoJS.AES.encrypt(this.props.email,this.props.password);
-        var encryptedUsername = CryptoJS.AES.encrypt(,this.props.password);
-        var encryptedInfo = CryptoJS.AES.encrypt(,this.props.password);
-        var encryptedDateOfSignUp = CryptoJS.AES.encrypt(,this.props.password);
-*/
+        var encryptedUsername = CryptoJS.AES.encrypt(this.state.username,this.props.password);
+        var encryptedInfo = CryptoJS.AES.encrypt(this.state.info,this.props.password);
+        var encryptedDateOfSignUp = CryptoJS.AES.encrypt(this.state.dateOfSignUp,this.props.password);
+
         var docData = {
             text : encryptedText.toString(),
-            createdAt :  time,
-            email : this.props.email,
+            createdAt :  encryptedCreatedAt.toString(),
+            email : encryptedEmail.toString(),
             exactTimeToSort : today.getTime(),
-            username : this.state.username,
-            info : this.state.info,
-            dateOfSignUp : this.state.dateOfSignUp
+            username : encryptedUsername.toString(),
+            info : encryptedInfo.toString(),
+            dateOfSignUp : encryptedDateOfSignUp.toString()
         };
 
 
@@ -118,14 +118,20 @@ class Body2 extends React.Component
         .then((u)=>{
             console.log("componentDidMount success usernameRetrieval");
             console.log(u.data());
-            var decryptUsername = CryptoJS.AES.decrypt(u.data()['username'].toString(),this.props.password);
-            var decryptInfo = CryptoJS.AES.decrypt(u.data()['info'].toString(),this.props.password);
-            var decryptDateofsignup = CryptoJS.AES.decrypt(u.data()['dateOfSignUp'].toString(),this.props.password);
+            
+            var DecryptedUsername = CryptoJS.AES.decrypt(u.data()['username'],this.props.password);
+          //  var decrypted=Decrypted.toString(CryptoJS.enc.Utf8);
+
+            var DecryptedInfo = CryptoJS.AES.decrypt(u.data()['info'],this.props.password);
+         //   var decrypted=Decrypted.toString(CryptoJS.enc.Utf8);
+
+            var DecryptedDatOfSignUp = CryptoJS.AES.decrypt(u.data()['dateOfSignUp'],this.props.password);
+          //  var decrypted=Decrypted.toString(CryptoJS.enc.Utf8);
 
           this.setState({
-              username : u.data()['username'],
-              info : u.data()['info'],
-              dateOfSignUp : u.data()['dateOfSignUp'],
+              username : DecryptedUsername.toString(CryptoJS.enc.Utf8),
+              info : DecryptedInfo.toString(CryptoJS.enc.Utf8),
+              dateOfSignUp : DecryptedDatOfSignUp.toString(CryptoJS.enc.Utf8),
             });
             
           })

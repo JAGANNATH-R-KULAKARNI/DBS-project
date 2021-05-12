@@ -75,9 +75,25 @@ export default function BottomAppBar(props) {
          props.finalChats ? props.finalChats.map((item)=>{
           var DecryptedText = CryptoJS.AES.decrypt(item['text'],props.password);
           var decryptedText=DecryptedText.toString(CryptoJS.enc.Utf8);
-         return <Chat NameForAvatar={item['username']} label={item['username']} name={props.email === item['email'] ? "You" : item['username']} time={item['createdAt']} text={decryptedText} 
-         color={props.email === item['email'] ? "primary" : "secondary"} profileModalHandler={props.profileModalHandler} email={item['email']}
-          info={item['info']} dateOfSignUp={item['dateOfSignUp']} key={item['exactTimeToSort']} exactTimeToSort={item['exactTimeToSort']} deleteChatClickHandlerChannel={props.deleteChatClickHandlerChannel}/>;
+
+          var Decryptedusername = CryptoJS.AES.decrypt(item['username'],props.password);
+          var decryptedUusername=Decryptedusername.toString(CryptoJS.enc.Utf8);
+
+          var Decryptedemail = CryptoJS.AES.decrypt(item['email'],props.password);
+          var decryptedEemail=Decryptedemail.toString(CryptoJS.enc.Utf8);
+
+          var DecryptedcreatedAt = CryptoJS.AES.decrypt(item['createdAt'],props.password);
+          var decryptedCcreatedAt=DecryptedcreatedAt.toString(CryptoJS.enc.Utf8);
+
+          var Decryptedinfo = CryptoJS.AES.decrypt(item['info'],props.password);
+          var decryptedIinfo=Decryptedinfo.toString(CryptoJS.enc.Utf8);
+
+          var DecrypteddateOfSignUp = CryptoJS.AES.decrypt(item['dateOfSignUp'],props.password);
+          var decryptedDdateOfSignUp=DecrypteddateOfSignUp.toString(CryptoJS.enc.Utf8);
+
+         return <Chat NameForAvatar={decryptedUusername} label={decryptedUusername} name={props.email === decryptedEemail ? "You" : decryptedUusername} time={decryptedCcreatedAt} text={decryptedText} 
+         color={props.email === decryptedEemail ? "primary" : "secondary"} profileModalHandler={props.profileModalHandler} email={decryptedEemail}
+          info={decryptedIinfo} dateOfSignUp={decryptedDdateOfSignUp} key={item['exactTimeToSort']} exactTimeToSort={item['exactTimeToSort']} deleteChatClickHandlerChannel={props.deleteChatClickHandlerChannel}/>;
          }) : null
        }
        </div>
