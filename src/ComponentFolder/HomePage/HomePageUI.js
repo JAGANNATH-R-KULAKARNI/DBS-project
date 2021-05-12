@@ -24,6 +24,7 @@ import PropTypes from 'prop-types';
 import HOMEPAGEUI from './HomePage2UI';
 import ProfileButton from '../Profile/profileButton';
 import Profile from '../Profile/Profile';
+import LogOutButton from '../LogOut/LogOutButton';
 
 const drawerWidth = 240;
 
@@ -41,12 +42,13 @@ export default function SwipeableTemporaryDrawer(props) {
   const classes = useStyles();
   const [Status, setStatus] = React.useState(true);
   const [state, setState] = React.useState({
-    left: false
+    left: false,
+    bottom : false
   });
 
   const logOutButtonClick = () =>{
     props.logOutHandle();
-    toggleDrawer('left', false);
+    toggleDrawer('bottom', false);
   }
 
   const arrowBackButtonHandler = () =>{
@@ -54,7 +56,7 @@ export default function SwipeableTemporaryDrawer(props) {
   }
   const profileButtonHandle = () =>{
     setStatus(false);
-    toggleDrawer('left',false);
+    toggleDrawer('bottom',false);
   }
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -80,14 +82,14 @@ export default function SwipeableTemporaryDrawer(props) {
       <br />
       <Divider />
       <List>
-        <div onClick={profileButtonHandle} style={{textAlign : "center"}}>
-        <ProfileButton />
+        <div style={{textAlign : "center"}}>
+        <ProfileButton profileButtonHandle={profileButtonHandle}/>
         </div>
       </List>
       <Divider />
       <List>
-      <div onClick={logOutButtonClick} style={{textAlign : "center"}}>
-              {props.logOutButton}
+      <div style={{textAlign : "center"}}>
+      <LogOutButton buttonMessage="LogOut" logOutButtonClick={logOutButtonClick}/>
         </div>
       </List>
       <Divider />
@@ -100,17 +102,17 @@ export default function SwipeableTemporaryDrawer(props) {
   return (
     <div>
     <div>
-    <HOMEPAGEUI drawerOpen={toggleDrawer('left', true)} status={Status} arrowBackButtonHandler={arrowBackButtonHandler}/>
+    <HOMEPAGEUI drawerOpen={toggleDrawer('bottom', true)} status={Status} arrowBackButtonHandler={arrowBackButtonHandler}/>
     <SwipeableDrawer
-            anchor='left'
-            open={state['left']}
-            onClose={toggleDrawer('left', false)}
-            onOpen={toggleDrawer('left', true)}
+            anchor='bottom'
+            open={state['bottom']}
+            onClose={toggleDrawer('bottom', false)}
+            onOpen={toggleDrawer('bottom', true)}
           >
-            {list('left')}
+            {list('bottom')}
           </SwipeableDrawer>
       </div>
-      <div style={{paddingLeft : '20px'}}>
+      <div style={{paddingLeft : '5px'}}>
       {Status ? props.body : <Profile />}
       </div>
     </div>

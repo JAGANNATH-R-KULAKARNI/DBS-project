@@ -9,9 +9,9 @@ class Home extends Component
 
     render()
     {
-        const logOutButton= <LogOutButton buttonMessage="LogOut"/>;
+       // const logOutButton= <LogOutButton buttonMessage="LogOut"/>;
         const body=<Body email={this.props.email} password={this.props.password}/>;
-        const homepage=<HomePageUI logOutHandle={this.props.logOutHandle} logOutButton={logOutButton} body={body} />;
+        const homepage=<HomePageUI logOutHandle={this.props.logOutHandle} body={body} />;
 
         return (
             <div>

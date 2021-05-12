@@ -22,6 +22,7 @@ export default function IconLabelButtons(props) {
         variant="contained"
         color="secondary"
         className={classes.button}
+        onClick={props.logOutButtonClick}
       >
        {props.buttonMessage}
       </Button>

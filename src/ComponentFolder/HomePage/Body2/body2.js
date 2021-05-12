@@ -69,7 +69,10 @@ class Body2 extends React.Component
     {
         var today = new Date();
         var month=today.getMonth()+1;
-        var time = today.getHours() + ':' + today.getMinutes()+ '     ['+today.getDate()+'/'+month+'/'+today.getFullYear()+']';
+        var MIN=today.getMinutes();
+        var minutes=MIN < 10 ? '0'+MIN : ''+MIN;
+
+        var time = today.getHours() + ':' + minutes+ '     ['+today.getDate()+'/'+month+'/'+today.getFullYear()+']';
         console.log("testing encryption");
         console.log(text);
       //  var encrypted = CryptoJS.AES.encrypt(text, "Secret Passphrase");
@@ -80,7 +83,13 @@ class Body2 extends React.Component
   //    var decrypted = CryptoJS.AES.decrypt(encrypted.toString(), "Secret Passphrase");
 //console.log("final result : ",decrypted.toString(CryptoJS.enc.Utf8)); // UTF-8 encoded
 //console.log(CryptoJS.enc.Utf8.stringify(decrypted)); // UTF-8 encoded
-        var encryptedText = CryptoJS.AES.encrypt(text,this.props.password);
+       var encryptedText = CryptoJS.AES.encrypt(text,this.props.password);
+       /* var encryptedCreatedAt = CryptoJS.AES.encrypt(time,this.props.password);
+        var encryptedEmail = CryptoJS.AES.encrypt(this.props.email,this.props.password);
+        var encryptedUsername = CryptoJS.AES.encrypt(,this.props.password);
+        var encryptedInfo = CryptoJS.AES.encrypt(,this.props.password);
+        var encryptedDateOfSignUp = CryptoJS.AES.encrypt(,this.props.password);
+*/
         var docData = {
             text : encryptedText.toString(),
             createdAt :  time,
@@ -122,7 +131,7 @@ class Body2 extends React.Component
           })
         .catch((err)=>console.log("componentDidMount error usernameRetrieval"));
 
-        firebase.firestore().collection('messages').orderBy('exactTimeToSort').limit(100)
+        firebase.firestore().collection('messages').orderBy('exactTimeToSort')
         .onSnapshot(querySnapshot => {
             console.log("componentDidMount messages success chatsRetrieval");
          const data = querySnapshot.docs.map(doc => ({

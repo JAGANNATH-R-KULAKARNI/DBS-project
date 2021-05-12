@@ -15,12 +15,14 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ButtonOK from './Button';
-import useFitText from './useFitText';
+import {BrowserRouter as Router,Switch,Route,Link} from "react-router-dom";
+import Divider from '@material-ui/core/Divider';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    maxWidth: '100%',
+    backgroundColor : '#98FB98',
   },
   media: {
     height: 0,
@@ -44,42 +46,40 @@ const useStyles = makeStyles((theme) => ({
 export default function RecipeReviewCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const { fontSize, ref } = useFitText();
+  const chatSize=useMediaQuery('max-width: 720px');
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   return (
-    <Card className={classes.root}>
+    <Router>
+      <Divider/>
+    <Card style={{
+        maxWidth: chatSize ? '100%' : '820px',
+        backgroundColor : props.color === 'primary' ? '#6495ED' : '#FFFFFF',
+        elevation : '10'
+      }}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            {props.label[0]}
+          <Avatar aria-label="recipe" style={{backgroundColor : props.color === 'primary' ? '#6A5ACD' : '#6A5ACD'}}>
+            {props.avatar[0]}
           </Avatar>
         }
-        title={props.label}
-        subheader={"Joined on  "+props.dateOfSignUp}
+        action={
+          props.encryptionIconANDdeleteIcon
+        }
+        title={ <Link onClick={(dummy,Email=props.email,Name=props.avatar,DateOfSignUp=props.dateOfSignUp,Info=props.info) =>
+            props.profileModalHandler(Name,Email,DateOfSignUp,Info)}>~{props.name}</Link>}
+        subheader={props.time}
       />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-        <div ref={ref} style={{ fontSize}}>
-        {props.email}
-        <br />
-        <br />
-        {props.info}
-        </div>
-        </Typography>
-        <br />
-        <Typography variant="body2" color="textSecondary" component="p">
-        <ButtonOK  profileModalHandlerAfterOKClicked={props.profileModalHandlerAfterOKClicked}
-        />
-        </Typography>
-      </CardContent>
-     
-    
-     
-     
+     <CardContent>
+      <Typography variant="body2" color="textSecondary" component="p">
+         {props.text}
+       </Typography>
+       </CardContent>
     </Card>
+    <Divider/>
+    </Router>
   );
 }

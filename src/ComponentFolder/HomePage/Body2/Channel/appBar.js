@@ -17,10 +17,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import TextField from './textField';
+import TextField from './TEXTFIELDMID';
 import Send from './sendButton';
 import Chat from './chat';
 import CryptoJS from "react-native-crypto-js";
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
   text: {
@@ -61,25 +62,30 @@ export default function BottomAppBar(props) {
     <React.Fragment>
       <CssBaseline />
       <Paper square className={classes.paper}>
+        <br />
+        <br />
+        <br />
         <Typography className={classes.text} variant="h5" gutterBottom>
           Chat here
         </Typography>
+       < Divider/>
         <List className={classes.list}>
-          <div style={{padding : "10px 10px 10px 10px"}}>
+          <div >
         {
          props.finalChats ? props.finalChats.map((item)=>{
           var DecryptedText = CryptoJS.AES.decrypt(item['text'],props.password);
           var decryptedText=DecryptedText.toString(CryptoJS.enc.Utf8);
-         return <Chat label={item['username']} name={props.email === item['email'] ? "You" : item['username']} time={item['createdAt']} text={decryptedText} 
+         return <Chat NameForAvatar={item['username']} label={item['username']} name={props.email === item['email'] ? "You" : item['username']} time={item['createdAt']} text={decryptedText} 
          color={props.email === item['email'] ? "primary" : "secondary"} profileModalHandler={props.profileModalHandler} email={item['email']}
           info={item['info']} dateOfSignUp={item['dateOfSignUp']} key={item['exactTimeToSort']} exactTimeToSort={item['exactTimeToSort']} deleteChatClickHandlerChannel={props.deleteChatClickHandlerChannel}/>;
          }) : null
        }
        </div>
+       < Divider/>
         </List>
         
-        <TextField textFieldHandle={props.textFieldHandle}/>
-              <Send sendStatus={props.sendStatus} handleClick={props.handleClick}/>
+        <TextField textFieldHandle={props.textFieldHandle}  textFieldnull={props.textFieldnull}
+        sendStatus={props.sendStatus} handleClick={props.handleClick}/>
               
       </Paper>
      

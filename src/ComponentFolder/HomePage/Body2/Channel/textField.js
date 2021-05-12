@@ -13,10 +13,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BasicTextFields(props) {
   const classes = useStyles();
-
+  
   return (
+    <div>
     <form className={classes.root} noValidate autoComplete="off">
-      <TextField id="outlined-basic" label="buzz here" variant="outlined" onChange={props.textFieldHandle}/>
+      <TextField
+      id="textfieldresetid" label="buzz here" variant="outlined" onChange={props.textFieldHandle} multiline/>
     </form>
+</div>
   );
-}
+};
+
+

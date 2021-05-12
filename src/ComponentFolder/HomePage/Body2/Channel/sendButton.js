@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
 export default function IconLabelButtons(props) {
   const classes = useStyles();
 
+  const clickHandle = ()=>{
+    props.clicked();
+  }
   return (
     <div>
       
@@ -27,7 +30,7 @@ export default function IconLabelButtons(props) {
         className={classes.button}
         startIcon={<CloudUploadIcon />}
         disabled={!props.sendStatus}
-        onClick={props.handleClick}
+        onClick={clickHandle}
       >
       Send
       </Button>
