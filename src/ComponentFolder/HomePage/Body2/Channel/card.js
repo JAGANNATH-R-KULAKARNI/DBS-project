@@ -59,7 +59,7 @@ export default function RecipeReviewCard(props) {
       <Divider/>
     <Card style={{
         maxWidth: chatSize ? '100%' : '720px',
-        backgroundColor : props.color === 'primary' ? '#00BFFF' : '#FFFFFF',
+        backgroundColor : props.color === 'primary' ? '#E01E5A' : '#FFFFFF',
         elevation : '10'
       }}>
       <CardHeader
