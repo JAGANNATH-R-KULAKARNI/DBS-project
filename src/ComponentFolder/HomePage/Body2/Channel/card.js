@@ -18,6 +18,8 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {BrowserRouter as Router,Switch,Route,Link} from "react-router-dom";
 import Divider from '@material-ui/core/Divider';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import InsertCommentIcon from '@material-ui/icons/InsertComment';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,7 +49,7 @@ export default function RecipeReviewCard(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const chatSize=useMediaQuery('max-width: 720px');
-
+  //const 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -56,13 +58,14 @@ export default function RecipeReviewCard(props) {
     <Router>
       <Divider/>
     <Card style={{
-        maxWidth: chatSize ? '100%' : '820px',
-        backgroundColor : props.color === 'primary' ? '#6495ED' : '#FFFFFF',
+        maxWidth: chatSize ? '100%' : '720px',
+        backgroundColor : props.color === 'primary' ? '#00BFFF' : '#FFFFFF',
         elevation : '10'
       }}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" style={{backgroundColor : props.color === 'primary' ? '#6A5ACD' : '#6A5ACD'}}>
+          <Avatar aria-label="recipe" style={{backgroundColor : props.color === 'primary' ? '#FF0000' : '#FF0000'}}
+          src='https://images.unsplash.com/photo-1558981403-c5f9899a28bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80'>
             {props.avatar[0]}
           </Avatar>
         }
@@ -74,12 +77,20 @@ export default function RecipeReviewCard(props) {
         subheader={props.time}
       />
      <CardContent>
-      <Typography variant="body2" color="textSecondary" component="p">
+      <Typography variant="body2" color="black" component="p">
          {props.text}
+         <Tooltip title="Comments">
+         <IconButton
+          style={{float : 'right'}}
+          onClick={handleExpandClick}
+          aria-label="Comments"
+        >
+          <InsertCommentIcon />
+        </IconButton>
+        </Tooltip>
        </Typography>
        </CardContent>
     </Card>
-    <Divider/>
     </Router>
   );
 }

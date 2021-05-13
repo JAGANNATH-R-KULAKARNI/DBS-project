@@ -22,6 +22,8 @@ import Send from './sendButton';
 import Chat from './chat';
 import CryptoJS from "react-native-crypto-js";
 import Divider from '@material-ui/core/Divider';
+import Footer from './footer';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
   text: {
@@ -54,14 +56,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
 export default function BottomAppBar(props) {
   const classes = useStyles();
+  const position=useMediaQuery('max-width: 720px');
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <Paper square className={classes.paper}>
+      <Paper square style={{paddingBottom: 50}}>
         <br />
         <br />
         <br />
@@ -99,12 +101,12 @@ export default function BottomAppBar(props) {
        </div>
        < Divider/>
         </List>
-        
+        <div  id="chatsTextField"/>
+        <div>
         <TextField textFieldHandle={props.textFieldHandle}  textFieldnull={props.textFieldnull}
         sendStatus={props.sendStatus} handleClick={props.handleClick}/>
-              
+       </div>
       </Paper>
-     
     </React.Fragment>
   );
 }

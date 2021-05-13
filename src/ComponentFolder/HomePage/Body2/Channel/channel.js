@@ -92,7 +92,6 @@ this.setState({
   {
     const TEXT=this.state.text;
     this.setState({
-      text : '',
       textFieldnull : !this.state.textFieldnull
     });
    this.props.handleClick(TEXT);

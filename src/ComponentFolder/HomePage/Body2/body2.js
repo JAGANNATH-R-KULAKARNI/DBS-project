@@ -197,7 +197,7 @@ class Body2 extends React.Component
         return (
             <div>
                 {body}
-                <div id="chatsTextField"/>
+                <div/>
          </div>
         );
     }
