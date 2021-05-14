@@ -6,7 +6,7 @@ import TextField from './Channel/textField';
 import Send from './Channel/sendButton';
 import Spinner from '../../Loader/Loader';
 import CryptoJS from "react-native-crypto-js";
-
+import ErrorModal from './ModalForBody2';
 
 class Body2 extends React.Component
 {
@@ -20,16 +20,25 @@ class Body2 extends React.Component
             dateOfSignUp : null,
             finalChats : null,
             chatLength : 0,
-            spinner : false
+            spinner : false,
+            errorModalStatus : false,
+            errorModalMessage : ''
         }
        
      this.handleClick=this.handleClick.bind(this);
      this.updateChats=this.updateChats.bind(this);
      this.scrollToBottom=this.scrollToBottom.bind(this);
      this.deleteChatHandler=this.deleteChatHandler.bind(this);
+     this.errorModalMessageCloseHandle=this.errorModalMessageCloseHandle.bind(this);
     }
   
-  
+    errorModalMessageCloseHandle()
+    {
+      this.setState({
+        errorModalStatus : false
+      });
+    }
+
     deleteChatHandler(id)
     {
       console.log("deleteChatHandler");
@@ -42,6 +51,10 @@ class Body2 extends React.Component
     })
      .catch((err)=>{
     console.log("something went wrong");
+    this.setState({
+      errorModalStatus : true,
+       errorModalMessage : 'Deleting message was not successful , Check your Internet connection'
+    });
 })
     }
 
@@ -106,6 +119,10 @@ class Body2 extends React.Component
         })
         .catch((err)=>{
             console.log("There was some error in uploading");
+            this.setState({
+              errorModalStatus : true,
+               errorModalMessage : 'Sending message was not successful , Check your Internet connection'
+            });
         });
  
     
@@ -152,7 +169,7 @@ class Body2 extends React.Component
               spinner : false
             });
           this.updateChats(data);
-       })
+       });
        this.scrollToBottom();
     }
   
@@ -177,6 +194,7 @@ class Body2 extends React.Component
           }
           
       });
+   
    //   console.log("final chats vro")
      //console.log(this.state.finalChats)
     }
@@ -196,6 +214,8 @@ class Body2 extends React.Component
 
         return (
             <div>
+              {this.props.errorModalStatus ? <ErrorModal message={this.state.errorModalMessage}
+               errorModalMessageCloseHandle={this.errorModalMessageCloseHandle}/> : null}
                 {body}
                 <div/>
          </div>

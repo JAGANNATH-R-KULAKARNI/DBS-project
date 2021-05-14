@@ -9,7 +9,6 @@ import SecurityIcon from '@material-ui/icons/Security';
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
   },
   bullet: {
     display: 'inline-block',
@@ -24,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function OutlinedCard() {
+export default function OutlinedCard(props) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
@@ -32,17 +31,20 @@ export default function OutlinedCard() {
     <Card className={classes.root} variant="outlined">
       <CardContent>
         <Typography variant="h5" component="h2">
-         <SecurityIcon/> Secuity
+         <SecurityIcon/> Security
+         <br />
         </Typography>
         <Typography variant="body2" component="p">
           This app uses crypto.js library ,which is a JavaScript implementations of standard and secure cryptographic algorithms. 
-          This means 
-          {'"Connect"'} secures your conversations with End-To-End encryption. Your messages and 
-          updates stay between you and the people you choose. Connect uses Firebase as its backend.Not Even Firebase
+          This means {'"Connect"'} secures your conversations with End-To-End encryption. Your messages and updates stay between you and the people you choose. Connect uses Firebase as its backend.Not Even Firebase
           nor me who created this app can read to them. 
           <br />
           -Jagannath R Kulakarni
         </Typography>
+        <Button variant="outlined" color="secondary" onClick={props.closeEditModal} style={{float : 'right',width : '10%'}}>
+             Ok
+           </Button>
+           <br />
       </CardContent>
     </Card>
   );
