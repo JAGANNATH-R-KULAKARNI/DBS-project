@@ -3,6 +3,7 @@ import Classes from '../../Modal/Modal.css';
 import Backdrop from '../../BackDrop/BackDrop';
 import TextField from '../textFieldForProfile';
 import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 class modal extends Component
 {
@@ -21,18 +22,12 @@ class modal extends Component
           
           <TextField editModalTextChangeHandler={this.props.editModalTextChangeHandler} TYPE="bio"/>
           <br />
-          
-              <div style={{width : '40%',paddingLeft : '5%'}}>
-          <Button size="small" variant="outlined" color="secondary" onClick={this.props.closeEditModal}>
-             Discard
-           </Button>
-           </div>
-           <br />
-           <div style={{width : '40%',paddingLeft : '5%'}}>
-           <Button size="small" variant="outlined" color="primary">
-             Save
-           </Button>
-           </div>
+          <div style={{paddingLeft : '10px'}}>
+          <ButtonGroup disableElevation variant="contained" color="primary">
+      <Button  onClick={this.props.closeEditModal}>Discard</Button>
+      <Button  onClick={this.props.editBioHandler}>Save</Button>
+    </ButtonGroup>
+    </div>
            </div>
           
           <Backdrop />  

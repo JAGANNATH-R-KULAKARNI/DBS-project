@@ -34,13 +34,13 @@ style={{
          <br />
                 <br />
                 <br />
-         <Card type={<Button onClick={props.openEditModalUsername}><EditIcon/></Button>} item="Jagannath R Kulakarni" />
+         <Card type={<Button onClick={props.openEditModalUsername}><EditIcon/></Button>} item={props.updatedUsername} />
                 <br />
                 <br />
-         <Card type={<Button onClick={props.openEditModalBio}><EditIcon/></Button>}  item="#Awesome" />
+         <Card type={<Button onClick={props.openEditModalBio}><EditIcon/></Button>}  item={props.updatedBio} />
                 <br />
                 <br />
-         <Card type={<Button onClick={props.openEditModalLocation}><EditIcon/></Button>} item="Mysore" />
+         <Card type={<Button onClick={props.openEditModalLocation}><EditIcon/></Button>} item={props.updatedLocation === '' ? 'Choose your location' : props.updatedLocation} />
                 <br />
                 <br />
         <Card type={MORE} item='Security'/>

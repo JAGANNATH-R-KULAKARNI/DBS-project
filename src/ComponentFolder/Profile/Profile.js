@@ -5,7 +5,9 @@ import UsernameModal from './ModalsForProfile/usernameModal';
 import BioModal from './ModalsForProfile/bioModal';
 import LocationModal from './ModalsForProfile/locationModal';
 import SecurityModal from './ModalsForProfile/securityModal';
-
+import firebase from '../../Firebase/firebase';
+import CryptoJS from "react-native-crypto-js";
+import Spinner from '../Loader/Loader';
 
 class Profile extends Component
 {
@@ -22,6 +24,11 @@ class Profile extends Component
                username : '',
                bio : '',
                location : '',
+               spinner : false,
+               spinnerForWholePage : false,
+               updatedUsername : '',
+               updatedBio : '',
+               updatedLocation : ''
               };
  
         this.closeEditModal=this.closeEditModal.bind(this);
@@ -37,9 +44,47 @@ class Profile extends Component
         this.openEditModalSecurity=this.openEditModalSecurity.bind(this);
        }
           
+       componentDidMount()
+       {
+              this.setState({spinnerForWholePage : true});    
+          
+              firebase.firestore().collection('users').doc(this.props.email).get()
+              .then((u)=>{
+                    
+           var DecryptedUsername = CryptoJS.AES.decrypt(u.data()['username'],this.props.password);
+           var DecryptedInfo = CryptoJS.AES.decrypt(u.data()['info'],this.props.password);
+            var DecryptedLocation = CryptoJS.AES.decrypt(u.data()['location'],this.props.password);
+            setTimeout(() => {
+              this.setState({
+                     updatedUsername : DecryptedUsername.toString(CryptoJS.enc.Utf8),
+                     updatedBio : DecryptedInfo.toString(CryptoJS.enc.Utf8),
+                     updatedLocation : DecryptedLocation.toString(CryptoJS.enc.Utf8),
+                     spinnerForWholePage : false
+                   });
+            }, 700);
+           
+              })
+              .catch((err)=>console.log(err));
+       }
+
+  /*     componentDidUpdate()
+       {
+          var USERNAME;
+          var LOCATION;
+          var BIO;
+
+          firebase.firestore().collection('users').doc(this.props.email).get()
+          .then((u)=>{
+          USERNAME=u.data()['username'];
+          LOCATION=u.data()['location'];
+          BIO=u.data()['bio'];
+          })
+       }
+*/
        editModalTextChangeHandler(e)
        {
           this.setState({[e.target.name] : e.target.value});
+          console.log(e.target.value);
        }
 
        openEditModalDp()
@@ -76,10 +121,14 @@ class Profile extends Component
               editBioStatus : false,
               editLocationStaus : false,
               securityShoeStatus : false,
+              Dp : '',
+              username : '',
+              bio : '',
+              location : '',
          });
        }
 
-
+       
        editDpHandler()
        {
 
@@ -87,17 +136,167 @@ class Profile extends Component
 
        editUsernameHandler()
        {
+          
+     
+         var encrypName = CryptoJS.AES.encrypt(this.state.username,this.props.password);
+       
+         firebase.firestore().collection('users').doc(this.props.email).update({
+                username : encrypName.toString()
+         })
+         .then((u)=>{console.log(u);})
+         .catch((err)=>console.log(err));
 
+         firebase.firestore().collection('messages').orderBy('exactTimeToSort')
+         .onSnapshot(querySnapshot => {
+             console.log("componentDidMount messages success chatsRetrieval");
+          const data = querySnapshot.docs.map(doc => ({
+              ...doc.data(),
+              id: doc.id,
+            }));
+  
+            console.log(data);
+           
+            data.map((item)=>{
+                   console.log(this.props.email);
+                   console.log(item['username']);
+                   var Decryptedemail = CryptoJS.AES.decrypt(item['email'],this.props.password);
+                   var decryptedEemail=Decryptedemail.toString(CryptoJS.enc.Utf8);
+
+    //    console.log(this.props.email === item['email'] ? "true vro" : "false vro");
+                  if(this.props.email === decryptedEemail) 
+                  {
+                   firebase.firestore().collection('messages').doc(item['exactTimeToSort'].toString()).update({
+                     username : encrypName.toString()
+                   })
+                   .then((u)=>console.log(u))
+                   .catch((err)=>console.log(err));
+              }
+            });
+
+       
+
+        });
+        this.setState({
+              updatedUsername : this.state.username
+        });
+        this.closeEditModal();
+        this.setState({
+              spinnerForWholePage : true
+            });
+        setTimeout(() => {
+              this.setState({
+                     spinnerForWholePage : false
+                   });
+            }, 300);
        }
 
        editBioHandler()
        {
-
+                
+            
+             var encryptBio = CryptoJS.AES.encrypt(this.state.bio,this.props.password);
+           
+             firebase.firestore().collection('users').doc(this.props.email).update({
+                    info : encryptBio.toString()
+             })
+             .then((u)=>{console.log(u);})
+             .catch((err)=>console.log(err));
+    
+             firebase.firestore().collection('messages').orderBy('exactTimeToSort')
+             .onSnapshot(querySnapshot => {
+                 console.log("componentDidMount messages success chatsRetrieval");
+              const data = querySnapshot.docs.map(doc => ({
+                  ...doc.data(),
+                  id: doc.id,
+                }));
+      
+                console.log(data);
+               
+                data.map((item)=>{
+ 
+                       var Decryptedemail = CryptoJS.AES.decrypt(item['email'],this.props.password);
+                       var decryptedEemail=Decryptedemail.toString(CryptoJS.enc.Utf8);
+    
+        //    console.log(this.props.email === item['email'] ? "true vro" : "false vro");
+                      if(this.props.email === decryptedEemail) 
+                      {
+                       firebase.firestore().collection('messages').doc(item['exactTimeToSort'].toString()).update({
+                            info : encryptBio.toString()
+                       })
+                       .then((u)=>console.log(u))
+                       .catch((err)=>console.log(err));
+                  }
+                });
+    
+           
+    
+            });
+            this.setState({
+              updatedBio : this.state.bio
+        });
+            this.closeEditModal();
+            this.setState({
+              spinnerForWholePage : true
+            });
+        setTimeout(() => {
+              this.setState({
+                     spinnerForWholePage : false
+                   });
+            }, 300);
        }
 
        editLocationHandler()
        {
-
+             
+             var encryptLocation = CryptoJS.AES.encrypt(this.state.location,this.props.password);
+           
+             firebase.firestore().collection('users').doc(this.props.email).update({
+                    location : encryptLocation.toString()
+             })
+             .then((u)=>{console.log(u);})
+             .catch((err)=>console.log(err));
+    
+             firebase.firestore().collection('messages').orderBy('exactTimeToSort')
+             .onSnapshot(querySnapshot => {
+                 console.log("componentDidMount messages success chatsRetrieval");
+              const data = querySnapshot.docs.map(doc => ({
+                  ...doc.data(),
+                  id: doc.id,
+                }));
+      
+                console.log(data);
+               
+                data.map((item)=>{
+ 
+                       var Decryptedemail = CryptoJS.AES.decrypt(item['email'],this.props.password);
+                       var decryptedEemail=Decryptedemail.toString(CryptoJS.enc.Utf8);
+    
+        //    console.log(this.props.email === item['email'] ? "true vro" : "false vro");
+                      if(this.props.email === decryptedEemail) 
+                      {
+                       firebase.firestore().collection('messages').doc(item['exactTimeToSort'].toString()).update({
+                            location : encryptLocation.toString()
+                       })
+                       .then((u)=>console.log(u))
+                       .catch((err)=>console.log(err));
+                  }
+                });
+    
+           
+    
+            });
+            this.setState({
+              updatedLocation : this.state.location
+        });
+            this.closeEditModal();
+            this.setState({
+              spinnerForWholePage : true
+            });
+        setTimeout(() => {
+              this.setState({
+                     spinnerForWholePage : false
+                   });
+            }, 300);
        }
 
        
@@ -105,17 +304,20 @@ class Profile extends Component
        {
               return (
                      <div>
+                            {this.state.spinnerForWholePage ? <Spinner /> : 
+                            <div>
+                            {this.state.spinner ? <Spinner /> : null}
               {this.state.editDpStatus ? <DpModal 
               editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
 
               {this.state.editUsernameStatus ? <UsernameModal 
-              editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
+              editUsernameHandler={this.editUsernameHandler} editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
 
               {this.state.editBioStatus ? <BioModal 
-              editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
+              editBioHandler={this.editBioHandler} editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
 
               {this.state.editLocationStaus ? <LocationModal 
-              editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
+              editLocationHandler={this.editLocationHandler} editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
 
               {this.state.securityShoeStatus ? <SecurityModal 
               editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
@@ -126,7 +328,11 @@ class Profile extends Component
                  openEditModalBio={this.openEditModalBio}
                  openEditModalLocation={this.openEditModalLocation}
                  openEditModalSecurity={this.openEditModalSecurity}
+                 updatedUsername={this.state.updatedUsername}
+                 updatedBio={this.state.updatedBio}
+                 updatedLocation={this.state.updatedLocation}
                  />
+                 </div>}
                      </div>
               );
        }

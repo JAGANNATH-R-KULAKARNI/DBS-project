@@ -118,6 +118,7 @@ const ValidationTextField = withStyles({
       borderLeftWidth: 6,
       padding: '4px !important', // override inline-style
     },
+    width : '100%'
   },
 })(TextField);
 
@@ -129,14 +130,13 @@ const theme = createMuiTheme({
 
 export default function CustomizedInputs(props) {
   const classes = useStyles();
-
+  const LABEL="edit your "+props.TYPE; 
   return (
     <form className={classes.root} noValidate>
       <CssTextField
         className={classes.margin}
-        label="Custom CSS"
+        label={LABEL}
         variant="outlined"
-        id="custom-css-outlined-input"
         name={props.TYPE}
         onChange={props.editModalTextChangeHandler}
       />

@@ -22,7 +22,7 @@ class Body2 extends React.Component
             chatLength : 0,
             spinner : false,
             errorModalStatus : false,
-            errorModalMessage : ''
+            errorModalMessage : '',
         }
        
      this.handleClick=this.handleClick.bind(this);
@@ -32,6 +32,8 @@ class Body2 extends React.Component
      this.errorModalMessageCloseHandle=this.errorModalMessageCloseHandle.bind(this);
     }
   
+ 
+
     errorModalMessageCloseHandle()
     {
       this.setState({
@@ -110,7 +112,8 @@ class Body2 extends React.Component
             exactTimeToSort : today.getTime(),
             username : encryptedUsername.toString(),
             info : encryptedInfo.toString(),
-            dateOfSignUp : encryptedDateOfSignUp.toString()
+            dateOfSignUp : encryptedDateOfSignUp.toString(),
+            location : ''
         };
 
 
@@ -152,7 +155,13 @@ class Body2 extends React.Component
             });
             
           })
-        .catch((err)=>console.log("componentDidMount error usernameRetrieval"));
+        .catch((err)=>{
+          console.log("componentDidMount error usernameRetrieval");
+          this.setState({
+            errorModalStatus : true,
+             errorModalMessage : 'There was some error in getting user details , Check your Internet connection'
+          });
+        });
 
         firebase.firestore().collection('messages').orderBy('exactTimeToSort')
         .onSnapshot(querySnapshot => {

@@ -113,7 +113,7 @@ export default function SwipeableTemporaryDrawer(props) {
           </SwipeableDrawer>
       </div>
       <div style={{paddingLeft : '5px'}}>
-      {Status ? props.body : <Profile />}
+      {Status ? props.body : <Profile email={props.email}  password={props.password}/>}
       </div>
     </div>
   );

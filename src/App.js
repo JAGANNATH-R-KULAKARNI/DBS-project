@@ -5,6 +5,7 @@ const App = () =>{
   return (
     <div>
       <Layout />
+      <div   id="chatsTextField"/>
     </div>
   );
 };

@@ -69,11 +69,11 @@ export default function CustomizedButtons(props) {
   return (
     <div>
      
-      <ThemeProvider theme={theme}>
+    
         <Button variant="contained" color="primary" className={classes.margin} onClick={props.afterUploadResulModalOKhandler}>
           OK 
         </Button>
-      </ThemeProvider>
+  
      
     </div>
   );

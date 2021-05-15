@@ -53,7 +53,7 @@ class Layout extends Component
     {
      this.setState({
         Modal : true,
-        messageType : 'info',
+        messageType : 'error',
         modalMessage : 'Do you want to logOut',
      })
     }
@@ -148,7 +148,7 @@ class Layout extends Component
         var encrypName = CryptoJS.AES.encrypt(this.state.username,this.state.password);
         var encrypDateOfSignUp = CryptoJS.AES.encrypt(time,this.state.password);
         var encrypInfo= CryptoJS.AES.encrypt(this.state.info,this.state.password);
- 
+        
         this.setState({loader : true})
      
        fire.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
@@ -157,7 +157,8 @@ class Layout extends Component
         fire.firestore().collection("users").doc(this.state.email).set({
             username : encrypName.toString(),
             info : encrypInfo.toString(),
-            dateOfSignUp : encrypDateOfSignUp.toString()
+            dateOfSignUp : encrypDateOfSignUp.toString(),
+            location : ''
         }).then(() => {
             console.log("Document successfully written!");
             this.setState({

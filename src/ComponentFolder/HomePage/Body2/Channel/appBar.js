@@ -101,7 +101,7 @@ export default function BottomAppBar(props) {
        </div>
        < Divider/>
         </List>
-        <div  id="chatsTextField"/>
+        <div/>
         <div>
         <TextField textFieldHandle={props.textFieldHandle}  textFieldnull={props.textFieldnull}
         sendStatus={props.sendStatus} handleClick={props.handleClick}/>

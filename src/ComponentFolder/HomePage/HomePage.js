@@ -11,7 +11,7 @@ class Home extends Component
     {
        // const logOutButton= <LogOutButton buttonMessage="LogOut"/>;
         const body=<Body email={this.props.email} password={this.props.password}/>;
-        const homepage=<HomePageUI logOutHandle={this.props.logOutHandle} body={body} />;
+        const homepage=<HomePageUI logOutHandle={this.props.logOutHandle} body={body} email={this.props.email} password={this.props.password}/>;
 
         return (
             <div>
