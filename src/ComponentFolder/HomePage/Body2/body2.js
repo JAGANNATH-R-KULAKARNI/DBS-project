@@ -86,8 +86,9 @@ class Body2 extends React.Component
         var month=today.getMonth()+1;
         var MIN=today.getMinutes();
         var minutes=MIN < 10 ? '0'+MIN : ''+MIN;
-
-        var time = today.getHours() + ':' + minutes+ '     ['+today.getDate()+'/'+month+'/'+today.getFullYear()+']';
+        var hours=today.getHours();
+        var type = (hours / 12) ? 'PM' : 'AM';
+        var time = hours % 12 + ':' + minutes+' '+type+ '     ['+today.getDate()+'/'+month+'/'+today.getFullYear()+']';
         console.log("testing encryption");
         console.log(text);
       //  var encrypted = CryptoJS.AES.encrypt(text, "Secret Passphrase");
