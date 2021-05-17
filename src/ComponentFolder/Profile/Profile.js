@@ -28,7 +28,8 @@ class Profile extends Component
                spinnerForWholePage : false,
                updatedUsername : '',
                updatedBio : '',
-               updatedLocation : ''
+               updatedLocation : '',
+               updatedDp : '',
               };
  
         this.closeEditModal=this.closeEditModal.bind(this);
@@ -54,11 +55,15 @@ class Profile extends Component
            var DecryptedUsername = CryptoJS.AES.decrypt(u.data()['username'],this.props.password);
            var DecryptedInfo = CryptoJS.AES.decrypt(u.data()['info'],this.props.password);
             var DecryptedLocation = CryptoJS.AES.decrypt(u.data()['location'],this.props.password);
+            var DecryptedDp = CryptoJS.AES.decrypt(u.data()['url'],this.props.password);
+
             setTimeout(() => {
               this.setState({
                      updatedUsername : DecryptedUsername.toString(CryptoJS.enc.Utf8),
                      updatedBio : DecryptedInfo.toString(CryptoJS.enc.Utf8),
                      updatedLocation : DecryptedLocation.toString(CryptoJS.enc.Utf8),
+                     updatedDp : DecryptedDp.toString(CryptoJS.enc.Utf8),
+                     Dp : DecryptedDp.toString(CryptoJS.enc.Utf8),
                      spinnerForWholePage : false
                    });
             }, 700);
@@ -67,20 +72,7 @@ class Profile extends Component
               .catch((err)=>console.log(err));
        }
 
-  /*     componentDidUpdate()
-       {
-          var USERNAME;
-          var LOCATION;
-          var BIO;
 
-          firebase.firestore().collection('users').doc(this.props.email).get()
-          .then((u)=>{
-          USERNAME=u.data()['username'];
-          LOCATION=u.data()['location'];
-          BIO=u.data()['bio'];
-          })
-       }
-*/
        editModalTextChangeHandler(e)
        {
           this.setState({[e.target.name] : e.target.value});
@@ -121,7 +113,6 @@ class Profile extends Component
               editBioStatus : false,
               editLocationStaus : false,
               securityShoeStatus : false,
-              Dp : '',
               username : '',
               bio : '',
               location : '',
@@ -132,6 +123,26 @@ class Profile extends Component
        editDpHandler()
        {
 
+              var encryptDp = CryptoJS.AES.encrypt(this.state.Dp,this.props.password);
+       
+              firebase.firestore().collection('users').doc(this.props.email).update({
+                     url : encryptDp.toString()
+              })
+              .then((u)=>{console.log(u);})
+              .catch((err)=>console.log(err));
+     
+             this.setState({
+                   updatedDp: this.state.Dp
+             });
+             this.closeEditModal();
+             this.setState({
+                   spinnerForWholePage : true
+                 });
+             setTimeout(() => {
+                   this.setState({
+                          spinnerForWholePage : false
+                        });
+                 }, 1500);
        }
 
        editUsernameHandler()
@@ -146,36 +157,6 @@ class Profile extends Component
          .then((u)=>{console.log(u);})
          .catch((err)=>console.log(err));
 
-         firebase.firestore().collection('messages').orderBy('exactTimeToSort')
-         .onSnapshot(querySnapshot => {
-             console.log("componentDidMount messages success chatsRetrieval");
-          const data = querySnapshot.docs.map(doc => ({
-              ...doc.data(),
-              id: doc.id,
-            }));
-  
-            console.log(data);
-           
-            data.map((item)=>{
-                   console.log(this.props.email);
-                   console.log(item['username']);
-                   var Decryptedemail = CryptoJS.AES.decrypt(item['email'],this.props.password);
-                   var decryptedEemail=Decryptedemail.toString(CryptoJS.enc.Utf8);
-
-    //    console.log(this.props.email === item['email'] ? "true vro" : "false vro");
-                  if(this.props.email === decryptedEemail) 
-                  {
-                   firebase.firestore().collection('messages').doc(item['exactTimeToSort'].toString()).update({
-                     username : encrypName.toString()
-                   })
-                   .then((u)=>console.log(u))
-                   .catch((err)=>console.log(err));
-              }
-            });
-
-       
-
-        });
         this.setState({
               updatedUsername : this.state.username
         });
@@ -187,7 +168,7 @@ class Profile extends Component
               this.setState({
                      spinnerForWholePage : false
                    });
-            }, 300);
+            }, 1500);
        }
 
        editBioHandler()
@@ -202,35 +183,6 @@ class Profile extends Component
              .then((u)=>{console.log(u);})
              .catch((err)=>console.log(err));
     
-             firebase.firestore().collection('messages').orderBy('exactTimeToSort')
-             .onSnapshot(querySnapshot => {
-                 console.log("componentDidMount messages success chatsRetrieval");
-              const data = querySnapshot.docs.map(doc => ({
-                  ...doc.data(),
-                  id: doc.id,
-                }));
-      
-                console.log(data);
-               
-                data.map((item)=>{
- 
-                       var Decryptedemail = CryptoJS.AES.decrypt(item['email'],this.props.password);
-                       var decryptedEemail=Decryptedemail.toString(CryptoJS.enc.Utf8);
-    
-        //    console.log(this.props.email === item['email'] ? "true vro" : "false vro");
-                      if(this.props.email === decryptedEemail) 
-                      {
-                       firebase.firestore().collection('messages').doc(item['exactTimeToSort'].toString()).update({
-                            info : encryptBio.toString()
-                       })
-                       .then((u)=>console.log(u))
-                       .catch((err)=>console.log(err));
-                  }
-                });
-    
-           
-    
-            });
             this.setState({
               updatedBio : this.state.bio
         });
@@ -242,7 +194,7 @@ class Profile extends Component
               this.setState({
                      spinnerForWholePage : false
                    });
-            }, 300);
+            }, 1500);
        }
 
        editLocationHandler()
@@ -255,36 +207,7 @@ class Profile extends Component
              })
              .then((u)=>{console.log(u);})
              .catch((err)=>console.log(err));
-    
-             firebase.firestore().collection('messages').orderBy('exactTimeToSort')
-             .onSnapshot(querySnapshot => {
-                 console.log("componentDidMount messages success chatsRetrieval");
-              const data = querySnapshot.docs.map(doc => ({
-                  ...doc.data(),
-                  id: doc.id,
-                }));
-      
-                console.log(data);
-               
-                data.map((item)=>{
- 
-                       var Decryptedemail = CryptoJS.AES.decrypt(item['email'],this.props.password);
-                       var decryptedEemail=Decryptedemail.toString(CryptoJS.enc.Utf8);
-    
-        //    console.log(this.props.email === item['email'] ? "true vro" : "false vro");
-                      if(this.props.email === decryptedEemail) 
-                      {
-                       firebase.firestore().collection('messages').doc(item['exactTimeToSort'].toString()).update({
-                            location : encryptLocation.toString()
-                       })
-                       .then((u)=>console.log(u))
-                       .catch((err)=>console.log(err));
-                  }
-                });
-    
-           
-    
-            });
+
             this.setState({
               updatedLocation : this.state.location
         });
@@ -296,7 +219,7 @@ class Profile extends Component
               this.setState({
                      spinnerForWholePage : false
                    });
-            }, 300);
+            }, 1500);
        }
 
        
@@ -308,7 +231,7 @@ class Profile extends Component
                             <div>
                             {this.state.spinner ? <Spinner /> : null}
               {this.state.editDpStatus ? <DpModal 
-              editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
+            editDpHandler={this.editDpHandler} updatedDp={this.state.Dp} editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
 
               {this.state.editUsernameStatus ? <UsernameModal 
               editUsernameHandler={this.editUsernameHandler} editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
@@ -331,6 +254,7 @@ class Profile extends Component
                  updatedUsername={this.state.updatedUsername}
                  updatedBio={this.state.updatedBio}
                  updatedLocation={this.state.updatedLocation}
+                 updatedDp={this.state.updatedDp}
                  />
                  </div>}
                      </div>
@@ -355,10 +279,8 @@ import EditLocationIcon from '@material-ui/icons/EditLocation';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import SecurityIcon from '@material-ui/icons/Security';
 import Button from '@material-ui/core/Button';
-
 const Profile = () =>
 {
-
        const image=( <div style={{
         textAlign: 'center'
         }}>           
@@ -367,7 +289,6 @@ style={{
     objectFit : 'contain'
     }}/>
 </div>);
-
      const MORE=(<Button color="secondary" size="small">
      More
    </Button>
@@ -399,6 +320,5 @@ style={{
         );
     
 };
-
 export default Profile;
 */

@@ -158,7 +158,8 @@ class Layout extends Component
             username : encrypName.toString(),
             info : encrypInfo.toString(),
             dateOfSignUp : encrypDateOfSignUp.toString(),
-            location : ''
+            location : '',
+            url : ''
         }).then(() => {
             console.log("Document successfully written!");
             this.setState({

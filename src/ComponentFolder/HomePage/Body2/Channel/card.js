@@ -65,15 +65,15 @@ export default function RecipeReviewCard(props) {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" style={{backgroundColor : props.color === 'primary' ? '#FF0000' : '#FF0000'}}
-          src='https://images.unsplash.com/photo-1558981403-c5f9899a28bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80'>
+          src={props.url}>
             {props.avatar[0]}
           </Avatar>
         }
         action={
           props.encryptionIconANDdeleteIcon
         }
-        title={ <Link onClick={(dummy,Email=props.email,Name=props.avatar,DateOfSignUp=props.dateOfSignUp,Info=props.info) =>
-            props.profileModalHandler(Name,Email,DateOfSignUp,Info)}>~{props.name}</Link>}
+        title={ <Link onClick={(dummy,Email=props.email,Name=props.avatar,DateOfSignUp=props.dateOfSignUp,Info=props.info,Location=props.location,Url=props.url) =>
+            props.profileModalHandler(Name,Email,DateOfSignUp,Info,Location,Url)}>~{props.name}</Link>}
         subheader={props.time}
       />
      <CardContent>

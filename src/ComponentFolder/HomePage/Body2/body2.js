@@ -87,8 +87,13 @@ class Body2 extends React.Component
         var MIN=today.getMinutes();
         var minutes=MIN < 10 ? '0'+MIN : ''+MIN;
         var hours=today.getHours();
-        var type = (hours / 12) ? 'PM' : 'AM';
-        var time = hours % 12 + ':' + minutes+' '+type+ '     ['+today.getDate()+'/'+month+'/'+today.getFullYear()+']';
+        var type = (hours >= 12) ? 'PM' : 'AM';
+        if(hours == 24)
+        type='AM';
+        
+        var HOURS=hours % 12 ? hours % 12 : 12;
+
+        var time = HOURS + ':' + minutes+' '+type+ '     ['+today.getDate()+'/'+month+'/'+today.getFullYear()+']';
         console.log("testing encryption");
         console.log(text);
       //  var encrypted = CryptoJS.AES.encrypt(text, "Secret Passphrase");
@@ -102,8 +107,8 @@ class Body2 extends React.Component
        var encryptedText = CryptoJS.AES.encrypt(text,this.props.password);
         var encryptedCreatedAt = CryptoJS.AES.encrypt(time,this.props.password);
         var encryptedEmail = CryptoJS.AES.encrypt(this.props.email,this.props.password);
-        var encryptedUsername = CryptoJS.AES.encrypt(this.state.username,this.props.password);
-        var encryptedInfo = CryptoJS.AES.encrypt(this.state.info,this.props.password);
+     //   var encryptedUsername = CryptoJS.AES.encrypt(this.state.username,this.props.password);
+    //    var encryptedInfo = CryptoJS.AES.encrypt(this.state.info,this.props.password);
         var encryptedDateOfSignUp = CryptoJS.AES.encrypt(this.state.dateOfSignUp,this.props.password);
 
         var docData = {
@@ -111,10 +116,7 @@ class Body2 extends React.Component
             createdAt :  encryptedCreatedAt.toString(),
             email : encryptedEmail.toString(),
             exactTimeToSort : today.getTime(),
-            username : encryptedUsername.toString(),
-            info : encryptedInfo.toString(),
             dateOfSignUp : encryptedDateOfSignUp.toString(),
-            location : ''
         };
 
 

@@ -24,6 +24,7 @@ import CryptoJS from "react-native-crypto-js";
 import Divider from '@material-ui/core/Divider';
 import Footer from './footer';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import firebase from '../../../../Firebase/firebase';
 
 const useStyles = makeStyles((theme) => ({
   text: {
@@ -78,24 +79,40 @@ export default function BottomAppBar(props) {
           var DecryptedText = CryptoJS.AES.decrypt(item['text'],props.password);
           var decryptedText=DecryptedText.toString(CryptoJS.enc.Utf8);
 
-          var Decryptedusername = CryptoJS.AES.decrypt(item['username'],props.password);
-          var decryptedUusername=Decryptedusername.toString(CryptoJS.enc.Utf8);
-
           var Decryptedemail = CryptoJS.AES.decrypt(item['email'],props.password);
           var decryptedEemail=Decryptedemail.toString(CryptoJS.enc.Utf8);
 
           var DecryptedcreatedAt = CryptoJS.AES.decrypt(item['createdAt'],props.password);
           var decryptedCcreatedAt=DecryptedcreatedAt.toString(CryptoJS.enc.Utf8);
 
-          var Decryptedinfo = CryptoJS.AES.decrypt(item['info'],props.password);
-          var decryptedIinfo=Decryptedinfo.toString(CryptoJS.enc.Utf8);
-
           var DecrypteddateOfSignUp = CryptoJS.AES.decrypt(item['dateOfSignUp'],props.password);
           var decryptedDdateOfSignUp=DecrypteddateOfSignUp.toString(CryptoJS.enc.Utf8);
+/*
+          var DecryptedUsername;
+          var DecryptedInfo;
+          var DecryptedLocation
 
-         return <Chat NameForAvatar={decryptedUusername} label={decryptedUusername} name={props.email === decryptedEemail ? "You" : decryptedUusername} time={decryptedCcreatedAt} text={decryptedText} 
-         color={props.email === decryptedEemail ? "primary" : "secondary"} profileModalHandler={props.profileModalHandler} email={decryptedEemail}
-          info={decryptedIinfo} dateOfSignUp={decryptedDdateOfSignUp} key={item['exactTimeToSort']} exactTimeToSort={item['exactTimeToSort']} deleteChatClickHandlerChannel={props.deleteChatClickHandlerChannel}/>;
+          firebase.firestore().collection('users').doc(decryptedEemail).get()
+        .then((u)=>{
+            console.log(u.data());
+            console.log("here inside then " + u.data()['username']);
+           var DecryptedUUsername = CryptoJS.AES.decrypt(u.data()['username'],props.password);
+           DecryptedUsername=DecryptedUUsername.toString(CryptoJS.enc.Utf8);
+          console.log(DecryptedUsername)
+           var DecryptedIInfo = CryptoJS.AES.decrypt(u.data()['info'],props.password);
+           DecryptedInfo=DecryptedIInfo.toString(CryptoJS.enc.Utf8);
+
+           var DecryptedLLocation = CryptoJS.AES.decrypt(u.data()['location'],props.password);
+           DecryptedLocation=DecryptedLLocation.toString(CryptoJS.enc.Utf8);
+            
+          })
+        .catch((err)=>{console.log(err)});
+        */
+        return <Chat time={decryptedCcreatedAt} text={decryptedText} 
+        color={props.email === decryptedEemail ? "primary" : "secondary"} profileModalHandler={props.profileModalHandler} email={decryptedEemail} propsEmail={props.email}
+        password={props.password} dateOfSignUp={decryptedDdateOfSignUp} key={item['exactTimeToSort']} exactTimeToSort={item['exactTimeToSort']} deleteChatClickHandlerChannel={props.deleteChatClickHandlerChannel}/>;
+       
+         
          }) : null
        }
        </div>

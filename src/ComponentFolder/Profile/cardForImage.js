@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import CARD from './cardForProfile';
 
 const useStyles = makeStyles({
   root: {
@@ -23,13 +24,13 @@ export default function MediaCard(props) {
   return (
     <Card className={classes.root}>
 
-        <CardMedia
+       { props.item !== '' ? <CardMedia
           className={classes.media}
-          image="https://images.unsplash.com/photo-1593642533144-3d62aa4783ec?ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+          image={props.item}
           title="Contemplative Reptile"
-        />
+        /> : null}
             <CardActionArea>
-        {props.item}
+        <CARD type={props.type} item={props.item === '' ? 'Upload Dp' : ''} />
       </CardActionArea>
     
     </Card>

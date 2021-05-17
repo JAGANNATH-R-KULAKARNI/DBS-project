@@ -30,7 +30,7 @@ style={{
                 <br />
                 <br />
                 <br />
-         <CardForImage item={<Button onClick={props.openEditModalDp}><EditIcon/></Button>}/>
+         <CardForImage type={<Button onClick={props.openEditModalDp}><EditIcon/></Button>} item={props.updatedDp}/>
          <br />
                 <br />
                 <br />

@@ -11,21 +11,49 @@ import HttpsIcon from '@material-ui/icons/Https';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import Card from './card';
+import firebase from '../../../../Firebase/firebase';
+import CryptoJS from "react-native-crypto-js";
 
-const useStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(1),
-  },
-}));
+class ButtonSizes extends React.Component
+ {
+ constructor()
+ {
+   super();
+   this.state={
+     username : '',
+     info : '',
+     location : '',
+     url : ''
+   };
+ }
 
+ componentDidMount()
+ {
+  firebase.firestore().collection('users').doc(this.props.email).get()
+  .then((u)=>{
+      console.log(u.data());
 
-export default function ButtonSizes(props) {
-  const classes = useStyles();
+     var DecryptedUUsername = CryptoJS.AES.decrypt(u.data()['username'],this.props.password);
+     
+     var DecryptedIInfo = CryptoJS.AES.decrypt(u.data()['info'],this.props.password);
+     
+     var DecryptedLLocation = CryptoJS.AES.decrypt(u.data()['location'],this.props.password);
+     
+     var DecryptedUUrl = CryptoJS.AES.decrypt(u.data()['url'],this.props.password);
 
- const deleteIcon=( props.color === 'primary' ? <Link onClick={(e)=>props.deleteChatClickHandlerChannel(props.exactTimeToSort)}>
+      this.setState({
+        username : DecryptedUUsername.toString(CryptoJS.enc.Utf8),
+     info : DecryptedIInfo.toString(CryptoJS.enc.Utf8),
+     location : DecryptedLLocation.toString(CryptoJS.enc.Utf8),
+     url : DecryptedUUrl.toString(CryptoJS.enc.Utf8)
+      })
+    })
+  .catch((err)=>{console.log(err)});
+ }
+
+ render()
+ {
+ const deleteIcon=( this.props.color === 'primary' ? <Link onClick={(e)=>this.props.deleteChatClickHandlerChannel(this.props.exactTimeToSort)}>
  <Tooltip title="Delete">
  <IconButton aria-label="delete">
    <DeleteIcon />
@@ -46,44 +74,18 @@ export default function ButtonSizes(props) {
     <div>
         <Router>
        
-   <Card encryptionIconANDdeleteIcon={encryptionIconANDdeleteIcon} lable={props.label} text={props.text}
-     deleteChatClickHandlerChannel={props.deleteChatClickHandlerChannel} color={props.color}
-     exactTimeToSort={props.exactTimeToSort}
-     name={props.name} email={props.email} dateOfSignUp={props.dateOfSignUp}
-     info={props.info} profileModalHandler={props.profileModalHandler} time={props.time}
-     avatar={props.NameForAvatar}/>
-    {/*<div>
-        <Button variant="contained" color={props.color}>
-        <Tooltip title="End-To-End Encrypted">
-    <IconButton aria-label="End-To-End Encrypted">
-     <HttpsIcon />
-     </IconButton>
-     </Tooltip>
-            <div style={{paddingRight : "10px"}}>
-        <Avatar alt={props.label} src="/static/images/avatar/3.jpg" />
-        </div>
-        <div style={{ fontFamily : " LucidaConsole  CourierNew Cursive"}}>
-  {props.text}
-  </div>
-  
-  { props.color === 'primary' ? <Link onClick={(e)=>props.deleteChatClickHandlerChannel(props.exactTimeToSort)}>
-   <Tooltip title="Delete">
-   <IconButton aria-label="delete">
-     <DeleteIcon />
-     </IconButton>
-     </Tooltip>
-     </Link> : null}
-    </Button>
+   <Card encryptionIconANDdeleteIcon={encryptionIconANDdeleteIcon} lable={this.state.username} text={this.props.text}
+     deleteChatClickHandlerChannel={this.props.deleteChatClickHandlerChannel} color={this.props.color}
+     exactTimeToSort={this.props.exactTimeToSort}
+     name={this.props.propsEmail === this.props.email ? "You" : this.state.username} email={this.props.email} dateOfSignUp={this.props.dateOfSignUp}
+     info={this.state.info} profileModalHandler={this.props.profileModalHandler} time={this.props.time}
+     avatar={this.state.username} location={this.state.location} url={this.state.url}/>
  
-    </div>
- <br />
-    <Button color="primary">{props.time}</Button>
-   <Link onClick={(dummy,Email=props.email,Name=props.label,DateOfSignUp=props.dateOfSignUp,Info=props.info) =>
-    props.profileModalHandler(Name,Email,DateOfSignUp,Info)}>~{props.name}</Link>
-    <Divider/>
-    */}
     </Router>
         </div>
     
   );
+ }
 }
+
+export default ButtonSizes;

@@ -56,6 +56,3 @@ export default function TransitionsModal(props) {
     </div>
   );
 }
-
-
-

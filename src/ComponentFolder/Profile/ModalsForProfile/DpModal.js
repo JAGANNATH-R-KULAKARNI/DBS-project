@@ -50,10 +50,9 @@ export default function TransitionsModal(props) {
         }}
       >
         <Fade in={open}>
-         <Card TEXTFIELD={TEXTFIELD} closeModal={props.closeEditModal} editHandler={null} TYPE="DP" DP={true}/>
+         <Card TEXTFIELD={TEXTFIELD} closeModal={props.closeEditModal} editHandler={null} TYPE="DP" DP={true} updatedDp={props.updatedDp} editHandler={props.editDpHandler}/>
         </Fade>
       </Modal>
     </div>
   );
 }
-

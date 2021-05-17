@@ -49,7 +49,14 @@ export default function RecipeReviewCard(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+  const DATEOFSIGNUP="Joined on  "+props.dateOfSignUp;
+  const SUBHEADER=(
+    <div>
+{DATEOFSIGNUP}
+<br />
+{props.location}
+    </div>
+  );
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -59,18 +66,20 @@ export default function RecipeReviewCard(props) {
           </Avatar>
         }
         title={props.label}
-        subheader={"Joined on  "+props.dateOfSignUp}
+        subheader={SUBHEADER}
       />
+     {props.url !== '' ?  <CardMedia
+        className={classes.media}
+        image={props.url}
+        title="info"
+      /> : null
+     }
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
         <div ref={ref} style={{ fontSize}}>
-        {props.email}
-        <br />
-        <br />
         {props.info}
         </div>
         </Typography>
-        <br />
         <Typography variant="body2" color="textSecondary" component="p">
         <ButtonOK  profileModalHandlerAfterOKClicked={props.profileModalHandlerAfterOKClicked}
         />

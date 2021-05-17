@@ -130,7 +130,7 @@ const theme = createMuiTheme({
 
 export default function CustomizedInputs(props) {
   const classes = useStyles();
-  const LABEL="edit your "+props.TYPE; 
+  const LABEL=props.TYPE !== 'Dp' ? "edit your "+props.TYPE : "Copy and paste the URL"; 
   return (
     <form className={classes.root} noValidate>
       <CssTextField

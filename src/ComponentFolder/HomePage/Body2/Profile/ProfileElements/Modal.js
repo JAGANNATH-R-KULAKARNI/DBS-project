@@ -20,7 +20,7 @@ class modal extends Component
         
          <Profile 
          profileModalHandlerAfterOKClicked={this.props.profileModalHandlerAfterOKClicked}
-         name={this.props.name} email={this.props.email} info={this.props.info} dateOfSignUp={this.props.dateOfSignUp}
+        url={this.props.url} name={this.props.name} email={this.props.email} info={this.props.info} dateOfSignUp={this.props.dateOfSignUp} location={this.props.location}
          />
           </div>
           <Backdrop />  

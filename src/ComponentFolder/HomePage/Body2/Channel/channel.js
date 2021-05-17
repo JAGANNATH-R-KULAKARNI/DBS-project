@@ -19,10 +19,12 @@ class SimpleContainer extends React.Component {
     name : '',
     email : '',
     info : '',
+    location : '',
     dateOfSignUp : null,
     OKNoModalForDELETEStatus : false,
     deleteChatID : null,
-    textFieldnull : false
+    textFieldnull : false,
+    url : ''
   };
 
    this.handleClick=this.handleClick.bind(this);
@@ -67,7 +69,7 @@ this.setState({
   this.setState({profileStatus : false});
   }
 
-  profileModalHandler(name,email,date,info)
+  profileModalHandler(name,email,date,info,location,url)
   {
       console.log("profileModalHandler",name,email);
   this.setState({
@@ -75,7 +77,9 @@ this.setState({
     name : name,
     email : email,
     info : info,
-    dateOfSignUp : date
+    location : location,
+    dateOfSignUp : date,
+    url : url
   });
   }
     textFieldHandle(e)
@@ -105,7 +109,7 @@ this.setState({
 
       {this.state.profileStatus ? <Modal 
       profileModalHandlerAfterOKClicked={this.profileModalHandlerAfterOKClicked}
-      email={this.state.email} name={this.state.name} info={this.state.info} dateOfSignUp={this.state.dateOfSignUp}
+     url={this.state.url} location={this.state.location} email={this.state.email} name={this.state.name} info={this.state.info} dateOfSignUp={this.state.dateOfSignUp}
       /> : null}
           {this.state.OKNoModalForDELETEStatus ? <OKNoModal 
           YesDeleteChatClickHandlerChannel={this.YesDeleteChatClickHandlerChannel} NoDeleteChatClickHandlerChannel={this.NoDeleteChatClickHandlerChannel}

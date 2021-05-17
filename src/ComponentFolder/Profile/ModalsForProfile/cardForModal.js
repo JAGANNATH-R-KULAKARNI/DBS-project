@@ -19,19 +19,18 @@ const useStyles = makeStyles({
 
 export default function MediaCard(props) {
   const classes = useStyles();
+  
+  const CARDMEDIA=( props.updatedDp !== '' ? <CardMedia
+  className={classes.media}
+  image={props.updatedDp}
+  title="Contemplative Reptile"
+/> : null);
 
   return (
     <Card className={classes.root}>
      
-      { props.DP ? <CardMedia
-          className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
-        /> : null}
+      { props.DP ? CARDMEDIA : null}
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h4">
-            {"Edit your "+props.TYPE}
-          </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {props.TEXTFIELD}
           </Typography>

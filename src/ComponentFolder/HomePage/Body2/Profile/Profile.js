@@ -11,8 +11,8 @@ class Profile extends Component
         
         return (
             <div>
-              <Card label={this.props.name} email={this.props.email} info={this.props.info} dateOfSignUp={this.props.dateOfSignUp}
-              profileModalHandlerAfterOKClicked={this.props.profileModalHandlerAfterOKClicked}/>
+              <Card location={this.props.location} label={this.props.name} email={this.props.email} info={this.props.info} dateOfSignUp={this.props.dateOfSignUp}
+             url={this.props.url} profileModalHandlerAfterOKClicked={this.props.profileModalHandlerAfterOKClicked}/>
               
             </div>
         );
