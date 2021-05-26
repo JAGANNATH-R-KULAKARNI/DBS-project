@@ -20,6 +20,8 @@ import Divider from '@material-ui/core/Divider';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import InsertCommentIcon from '@material-ui/icons/InsertComment';
 import Tooltip from '@material-ui/core/Tooltip';
+import ThumbUpRoundedIcon from '@material-ui/icons/ThumbUpRounded';
+import ThumbDownRoundedIcon from '@material-ui/icons/ThumbDownRounded';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +55,20 @@ export default function RecipeReviewCard(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+ 
+   const likeOrDislike=(
+   
+   <div style={{fontSize: "18px"}}>
+     {props.likes}
+   &nbsp;
+    <ThumbUpRoundedIcon style={{color : props.likeStatus ? 'blue' : null}} onClick={props.likeHandler}/>
+    &nbsp;
+    <ThumbDownRoundedIcon style={{color : props.dislikeStatus ? 'blue' : null}} onClick={props.dislikeHandler}/>
+    &nbsp;
+    {props.dislikes}
+    </div>
 
+   );
   return (
     <Router>
       <Divider/>
@@ -79,13 +94,14 @@ export default function RecipeReviewCard(props) {
      <CardContent>
       <Typography variant="body2" color="black" component="p">
          {props.text}
-         <Tooltip title="Comments">
+         <Tooltip title="Like or Dislike">
          <IconButton
           style={{float : 'right'}}
           onClick={handleExpandClick}
-          aria-label="Comments"
+          aria-label="Like or Dislike"
         >
-          <InsertCommentIcon />
+          {/*<InsertCommentIcon />*/}
+          {props.isDislikesStatusAvailable && props.isLikesStatusAvailable ? likeOrDislike : null}
         </IconButton>
         </Tooltip>
        </Typography>

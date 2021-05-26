@@ -23,8 +23,17 @@ class ButtonSizes extends React.Component
      username : '',
      info : '',
      location : '',
-     url : ''
+     url : '',
+     likes : 0,
+     dislikes : 0,
+     likeStatus : false,
+     dislikeStatus : false,
+     isLikesStatusAvailable : false,
+     isDislikesStatusAvailable : false
    };
+   
+   this.likeHandler=this.likeHandler.bind(this);
+   this.dislikeHandler=this.dislikeHandler.bind(this);
  }
 
  componentDidMount()
@@ -45,10 +54,155 @@ class ButtonSizes extends React.Component
         username : DecryptedUUsername.toString(CryptoJS.enc.Utf8),
      info : DecryptedIInfo.toString(CryptoJS.enc.Utf8),
      location : DecryptedLLocation.toString(CryptoJS.enc.Utf8),
-     url : DecryptedUUrl.toString(CryptoJS.enc.Utf8)
+     url : DecryptedUUrl.toString(CryptoJS.enc.Utf8),
+     likes : this.props.likes,
+     dislikes : this.props.dislikes
       })
     })
   .catch((err)=>{console.log(err)});
+
+  firebase.firestore().collection('emotions').doc('likes').collection(this.props.emailForLikesAndDislikes)
+  .onSnapshot(querySnapshot => {
+    console.log("here lol likes");
+ const data = querySnapshot.docs.map(doc => ({
+     ...doc.data(),
+     id: doc.id,
+   }));
+
+ var like=false;
+
+ data.map((item)=>{
+   if(this.props.exactTimeToSort === item['exactTimeToSort'])
+   {
+     like=true;
+   }
+ });
+
+ this.setState({
+   likeStatus : like,
+   isLikesStatusAvailable : true
+ })
+  }
+  );
+
+  firebase.firestore().collection('emotions').doc('dislikes').collection(this.props.emailForLikesAndDislikes)
+  .onSnapshot(querySnapshot => {
+    console.log("here lol dislikes");
+ const data = querySnapshot.docs.map(doc => ({
+     ...doc.data(),
+     id: doc.id,
+   }));
+
+ var dislike=false;
+
+ data.map((item)=>{
+   if(this.props.exactTimeToSort === item['exactTimeToSort'])
+   {
+     dislike=true;
+   }
+ });
+
+ this.setState({
+   dislikeStatus : dislike,
+   isDislikesStatusAvailable : true
+ })
+  }
+  );
+
+ }
+
+ componentWillUnmount()
+ {
+  firebase.firestore().collection('messages').doc(this.props.exactTimeToSort.toString()).update({
+    likes : this.state.likes,
+    dislikes : this.state.dislikes
+})
+.then((u)=>{console.log(u);})
+.catch((err)=>console.log(err));
+
+ if(this.state.likeStatus)
+ {
+  firebase.firestore().collection('emotions').doc('likes').collection(this.props.emailForLikesAndDislikes).doc(this.props.exactTimeToSort.toString())
+  .set({
+    exactTimeToSort : this.props.exactTimeToSort
+  })
+  .then((u)=>console.log(u))
+  .catch((err)=>console.log(err));
+ }
+ else
+ {
+  firebase.firestore().collection('emotions').doc('likes').collection(this.props.emailForLikesAndDislikes).doc(this.props.exactTimeToSort.toString())
+  .delete()
+  .then((u)=>console.log(u))
+  .catch((err)=>console.log(err));
+ }
+ if(this.state.dislikeStatus)
+ {
+  firebase.firestore().collection('emotions').doc('dislikes').collection(this.props.emailForLikesAndDislikes).doc(this.props.exactTimeToSort.toString())
+  .set({
+    exactTimeToSort : this.props.exactTimeToSort
+  })
+  .then((u)=>console.log(u))
+  .catch((err)=>console.log(err));
+ }
+ else
+ {
+  firebase.firestore().collection('emotions').doc('dislikes').collection(this.props.emailForLikesAndDislikes).doc(this.props.exactTimeToSort.toString())
+  .delete()
+  .then((u)=>console.log(u))
+  .catch((err)=>console.log(err));
+ }
+ }
+
+ likeHandler()
+ {
+   var count=this.state.likes;
+   var dislikes=this.state.dislikes;
+   var dislikeStatus=this.state.dislikeStatus;
+
+   if(this.state.dislikeStatus && !this.state.likeStatus)
+   {
+    dislikeStatus=false;
+    dislikes--;
+   }
+
+   if(this.state.likeStatus)
+   count--;
+   else
+   count++;
+
+  this.setState({
+    likes : count,
+    likeStatus : !this.state.likeStatus,
+    dislikeStatus : dislikeStatus,
+    dislikes : dislikes
+  });
+
+ }
+
+ dislikeHandler()
+ {
+  var count=this.state.dislikes;
+  var likes=this.state.likes;
+  var likeStatus=this.state.likeStatus;
+
+  if(this.state.likeStatus && !this.state.dislikeStatus)
+  {
+    likeStatus=false;
+    likes--;
+  }
+  if(this.state.dislikeStatus)
+  count--;
+  else
+  count++;
+
+ this.setState({
+   dislikes : count,
+   dislikeStatus : !this.state.dislikeStatus,
+   likeStatus : likeStatus,
+   likes : likes
+ });
+
  }
 
  render()
@@ -75,11 +229,13 @@ class ButtonSizes extends React.Component
         <Router>
        
    <Card encryptionIconANDdeleteIcon={encryptionIconANDdeleteIcon} lable={this.state.username} text={this.props.text}
-     deleteChatClickHandlerChannel={this.props.deleteChatClickHandlerChannel} color={this.props.color}
-     exactTimeToSort={this.props.exactTimeToSort}
+     deleteChatClickHandlerChannel={this.props.deleteChatClickHandlerChannel} color={this.props.color} likeStatus={this.state.likeStatus}
+     exactTimeToSort={this.props.exactTimeToSort} likes={this.state.likes} dislikes={this.state.dislikes} dislikeStatus={this.state.dislikeStatus}
      name={this.props.propsEmail === this.props.email ? "You" : this.state.username} email={this.props.email} dateOfSignUp={this.props.dateOfSignUp}
      info={this.state.info} profileModalHandler={this.props.profileModalHandler} time={this.props.time}
-     avatar={this.state.username} location={this.state.location} url={this.state.url}/>
+     avatar={this.state.username} location={this.state.location} url={this.state.url}
+     likeHandler={this.likeHandler} dislikeHandler={this.dislikeHandler} 
+     isLikesStatusAvailable={this.state.isLikesStatusAvailable} isDislikesStatusAvailable={this.state.isDislikesStatusAvailable}/>
  
     </Router>
         </div>

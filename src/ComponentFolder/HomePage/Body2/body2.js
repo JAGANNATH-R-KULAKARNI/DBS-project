@@ -117,6 +117,8 @@ class Body2 extends React.Component
             email : encryptedEmail.toString(),
             exactTimeToSort : today.getTime(),
             dateOfSignUp : encryptedDateOfSignUp.toString(),
+            likes : 0,
+            dislikes : 0
         };
 
 
@@ -187,7 +189,7 @@ class Body2 extends React.Component
   
     componentDidUpdate(prevProps, prevState)
     {
-       firebase.firestore().collection('messages').orderBy('exactTimeToSort').limit(100)
+       firebase.firestore().collection('messages').orderBy('exactTimeToSort')
        .onSnapshot(querySnapshot => {
            console.log("componentDidUpdate success messages retrieval");
         const data = querySnapshot.docs.map(doc => ({

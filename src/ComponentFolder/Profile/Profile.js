@@ -116,10 +116,11 @@ class Profile extends Component
               username : '',
               bio : '',
               location : '',
+              Dp : ''
          });
        }
+     
 
-       
        editDpHandler()
        {
 

@@ -108,7 +108,7 @@ export default function BottomAppBar(props) {
           })
         .catch((err)=>{console.log(err)});
         */
-        return <Chat time={decryptedCcreatedAt} text={decryptedText} 
+        return <Chat time={decryptedCcreatedAt} text={decryptedText} likes={item['likes']} dislikes={item['dislikes']} emailForLikesAndDislikes={props.email}
         color={props.email === decryptedEemail ? "primary" : "secondary"} profileModalHandler={props.profileModalHandler} email={decryptedEemail} propsEmail={props.email}
         password={props.password} dateOfSignUp={decryptedDdateOfSignUp} key={item['exactTimeToSort']} exactTimeToSort={item['exactTimeToSort']} deleteChatClickHandlerChannel={props.deleteChatClickHandlerChannel}/>;
        
