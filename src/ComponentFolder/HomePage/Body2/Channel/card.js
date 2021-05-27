@@ -61,9 +61,9 @@ export default function RecipeReviewCard(props) {
    <div style={{fontSize: "18px"}}>
      {props.likes}
    &nbsp;
-    <ThumbUpRoundedIcon style={{color : props.likeStatus ? 'blue' : null}} onClick={props.likeHandler}/>
+    <ThumbUpRoundedIcon style={{color : props.likeStatus ? 'black' : null}} onClick={props.likeHandler}/>
     &nbsp;
-    <ThumbDownRoundedIcon style={{color : props.dislikeStatus ? 'blue' : null}} onClick={props.dislikeHandler}/>
+    <ThumbDownRoundedIcon style={{color : props.dislikeStatus ? 'black' : null}} onClick={props.dislikeHandler}/>
     &nbsp;
     {props.dislikes}
     </div>
@@ -94,16 +94,15 @@ export default function RecipeReviewCard(props) {
      <CardContent>
       <Typography variant="body2" color="black" component="p">
          {props.text}
-         <Tooltip title="Like or Dislike">
          <IconButton
           style={{float : 'right'}}
-          onClick={handleExpandClick}
           aria-label="Like or Dislike"
         >
+        
           {/*<InsertCommentIcon />*/}
           {props.isDislikesStatusAvailable && props.isLikesStatusAvailable ? likeOrDislike : null}
-        </IconButton>
-        </Tooltip>
+      </IconButton>
+       
        </Typography>
        </CardContent>
     </Card>

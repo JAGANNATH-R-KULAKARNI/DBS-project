@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BottomAppBar(props) {
   const classes = useStyles();
   const position=useMediaQuery('max-width: 720px');
+  const [status, setStatus] = React.useState(true);
 
   return (
     <React.Fragment>

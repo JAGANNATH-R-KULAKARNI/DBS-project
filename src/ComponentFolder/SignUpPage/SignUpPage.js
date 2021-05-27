@@ -66,7 +66,6 @@ export default function SignUp(props) {
           <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                required
                 fullWidth
                 id="username"
                 label="username"
@@ -78,7 +77,6 @@ export default function SignUp(props) {
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                required
                 fullWidth
                 id="email"
                 label="Email Address"
@@ -88,9 +86,8 @@ export default function SignUp(props) {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
+            <TextField
                 variant="outlined"
-                required
                 fullWidth
                 name="password"
                 label="Password"
@@ -103,7 +100,6 @@ export default function SignUp(props) {
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
-                required
                 fullWidth
                 name="info"
                 label="More info about you"
@@ -139,3 +135,17 @@ export default function SignUp(props) {
     </Container>
   );
 }
+
+/*
+<TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={props.signUpStateChangeHandle}
+              />
+*/
