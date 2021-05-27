@@ -1,9 +1,6 @@
 import React from 'react';
 import firebase from '../../../Firebase/firebase';
 import Channel from './Channel/channel';
-import Chat from './Channel/chat';
-import TextField from './Channel/textField';
-import Send from './Channel/sendButton';
 import Spinner from '../../Loader/Loader';
 import CryptoJS from "react-native-crypto-js";
 import ErrorModal from './ModalForBody2';
@@ -43,16 +40,12 @@ class Body2 extends React.Component
 
     deleteChatHandler(id)
     {
-      console.log("deleteChatHandler");
-      console.log(id);
        var docID=''+id;
 
       firebase.firestore().collection('messages').doc(docID).delete()
     .then((u)=>{
-    console.log("Document is successfully deleted");
     })
      .catch((err)=>{
-    console.log("something went wrong");
     this.setState({
       errorModalStatus : true,
        errorModalMessage : 'Deleting message was not successful , Check your Internet connection'
@@ -61,22 +54,16 @@ class Body2 extends React.Component
     }
 
     scrollToBottom (){
+        const reF=document.getElementById('chatsTextField');
 
-        console.log("scrolling");
-        document.getElementById('chatsTextField').scrollIntoView({ behavior: "smooth" });
+        if(reF !== null)
+        reF.scrollIntoView({ behavior: "smooth" });
        }
  
 
     updateChats(data)
     {
-        /*
-        const finalChats=data.map((item)=>{
-         return <Chat name={item['username']} time={item['createdAt'] } text={item['text']}/>;
-        });
-        */
-     
         this.setState({finalChats :data});
-
         this.scrollToBottom();
     }
 
@@ -88,27 +75,15 @@ class Body2 extends React.Component
         var minutes=MIN < 10 ? '0'+MIN : ''+MIN;
         var hours=today.getHours();
         var type = (hours >= 12) ? 'PM' : 'AM';
-        if(hours == 24)
+       
+        if(hours === 24)
         type='AM';
-        
+      
         var HOURS=hours % 12 ? hours % 12 : 12;
-
         var time = HOURS + ':' + minutes+' '+type+ '     ['+today.getDate()+'/'+month+'/'+today.getFullYear()+']';
-        console.log("testing encryption");
-        console.log(text);
-      //  var encrypted = CryptoJS.AES.encrypt(text, "Secret Passphrase");
-     //   console.log(encrypted);
-    //    console.log("encryped form string : ",encrypted.toString())
-      //  var decrypted = CryptoJS.AES.decrypt(encrypted, "Secret Passphrase");
-      //  console.log(decrypted);
-  //    var decrypted = CryptoJS.AES.decrypt(encrypted.toString(), "Secret Passphrase");
-//console.log("final result : ",decrypted.toString(CryptoJS.enc.Utf8)); // UTF-8 encoded
-//console.log(CryptoJS.enc.Utf8.stringify(decrypted)); // UTF-8 encoded
-       var encryptedText = CryptoJS.AES.encrypt(text,this.props.password);
+        var encryptedText = CryptoJS.AES.encrypt(text,this.props.password);
         var encryptedCreatedAt = CryptoJS.AES.encrypt(time,this.props.password);
         var encryptedEmail = CryptoJS.AES.encrypt(this.props.email,this.props.password);
-     //   var encryptedUsername = CryptoJS.AES.encrypt(this.state.username,this.props.password);
-    //    var encryptedInfo = CryptoJS.AES.encrypt(this.state.info,this.props.password);
         var encryptedDateOfSignUp = CryptoJS.AES.encrypt(this.state.dateOfSignUp,this.props.password);
 
         var docData = {
@@ -123,10 +98,8 @@ class Body2 extends React.Component
 
 
         firebase.firestore().collection("messages").doc(today.getTime().toString()).set(docData).then(() => {
-            console.log("Document successfully written!");
         })
         .catch((err)=>{
-            console.log("There was some error in uploading");
             this.setState({
               errorModalStatus : true,
                errorModalMessage : 'Sending message was not successful , Check your Internet connection'
@@ -141,17 +114,11 @@ class Body2 extends React.Component
         this.setState({spinner : true});
         firebase.firestore().collection('users').doc(this.props.email).get()
         .then((u)=>{
-            console.log("componentDidMount success usernameRetrieval");
-            console.log(u.data());
-            
             var DecryptedUsername = CryptoJS.AES.decrypt(u.data()['username'],this.props.password);
-          //  var decrypted=Decrypted.toString(CryptoJS.enc.Utf8);
 
             var DecryptedInfo = CryptoJS.AES.decrypt(u.data()['info'],this.props.password);
-         //   var decrypted=Decrypted.toString(CryptoJS.enc.Utf8);
-
+  
             var DecryptedDatOfSignUp = CryptoJS.AES.decrypt(u.data()['dateOfSignUp'],this.props.password);
-          //  var decrypted=Decrypted.toString(CryptoJS.enc.Utf8);
 
           this.setState({
               username : DecryptedUsername.toString(CryptoJS.enc.Utf8),
@@ -161,7 +128,6 @@ class Body2 extends React.Component
             
           })
         .catch((err)=>{
-          console.log("componentDidMount error usernameRetrieval");
           this.setState({
             errorModalStatus : true,
              errorModalMessage : 'There was some error in getting user details , Check your Internet connection'
@@ -170,14 +136,11 @@ class Body2 extends React.Component
 
         firebase.firestore().collection('messages').orderBy('exactTimeToSort')
         .onSnapshot(querySnapshot => {
-            console.log("componentDidMount messages success chatsRetrieval");
          const data = querySnapshot.docs.map(doc => ({
              ...doc.data(),
              id: doc.id,
            }));
  
-           console.log(data);
-           console.log(data.length);
           this.setState({
               chatLength : data.length,
               spinner : false
@@ -191,16 +154,13 @@ class Body2 extends React.Component
     {
        firebase.firestore().collection('messages').orderBy('exactTimeToSort')
        .onSnapshot(querySnapshot => {
-           console.log("componentDidUpdate success messages retrieval");
         const data = querySnapshot.docs.map(doc => ({
             ...doc.data(),
             id: doc.id,
           }));
 
-          console.log(data);
-          console.log(data.length);
-          console.log(this.state.chatLength);
-       //   const len=prevState.data ? prevState.data.length : 0;
+   
+  
           if(this.state.chatLength !== data.length)
           {     
          this.setState({chatLength : data.length});
@@ -209,8 +169,6 @@ class Body2 extends React.Component
           
       });
    
-   //   console.log("final chats vro")
-     //console.log(this.state.finalChats)
     }
 
   
@@ -231,7 +189,7 @@ class Body2 extends React.Component
               {this.props.errorModalStatus ? <ErrorModal message={this.state.errorModalMessage}
                errorModalMessageCloseHandle={this.errorModalMessageCloseHandle}/> : null}
                 {body}
-                <div/>
+                <div id='chatsTextField'/>
          </div>
         );
     }

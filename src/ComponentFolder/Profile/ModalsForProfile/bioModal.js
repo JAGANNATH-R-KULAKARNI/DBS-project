@@ -4,8 +4,6 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import TextField from '../textFieldForProfile';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Card from './cardForModal';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,9 +23,7 @@ export default function TransitionsModal(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  
 
   const handleClose = () => {
     setOpen(true);

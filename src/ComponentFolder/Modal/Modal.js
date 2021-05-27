@@ -7,8 +7,7 @@ import MessageUI from '../MessagesUI/MessagesUI';
 
 class modal extends Component
 {
-   
-   
+  
     render()
     {
         return ( 
@@ -20,11 +19,13 @@ class modal extends Component
                    opacity :'1' 
                }}>
           <MessageUI messageType={this.props.messageType} modalMessage={this.props.modalMessage}/>
-          <div onClick={this.props.modalOKtoggleButton ? this.props.ModalHandle : this.props.ModalHandleDuringLogginOut}>
+          <div>
+          <div style={{float : 'left'}} onClick={this.props.modalOKtoggleButton ? this.props.ModalHandle : this.props.ModalHandleDuringLogginOut}>
           <Button/>  
           </div>
-          <div onClick={this.props.cancelModalHandleDuringLogginOut}>
-          {!this.props.modalOKtoggleButton ? <ButtonLogOut buttonMessage="CANCEL"/> : null}
+          <div style={{float : 'right'}} onClick={this.props.cancelModalHandleDuringLogginOut}>
+          {!this.props.modalOKtoggleButton ? <ButtonLogOut buttonMessage="No"/> : null}
+          </div>
           </div>
           </div>
           <Backdrop />  

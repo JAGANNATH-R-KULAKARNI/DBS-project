@@ -1,8 +1,4 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from './appBar';
 import Modal from '../Profile/ProfileElements/Modal';
 import OKNoModal from './Modal';
@@ -38,7 +34,6 @@ class SimpleContainer extends React.Component {
 
   deleteChatClickHandlerChannel(id)
   {
-    console.log('deleteChatClickHandlerChannel',id);
      this.setState({
       OKNoModalForDELETEStatus : true,
       deleteChatID : id
@@ -47,7 +42,6 @@ class SimpleContainer extends React.Component {
 
   YesDeleteChatClickHandlerChannel()
   {
-console.log("yes");
 this.props.deleteChatHandler(this.state.deleteChatID);
 this.setState({
   OKNoModalForDELETEStatus : false,
@@ -57,7 +51,6 @@ this.setState({
 
   NoDeleteChatClickHandlerChannel()
   {
-console.log("No");
 this.setState({
   OKNoModalForDELETEStatus : false,
   deleteChatID : null
@@ -71,7 +64,6 @@ this.setState({
 
   profileModalHandler(name,email,date,info,location,url)
   {
-      console.log("profileModalHandler",name,email);
   this.setState({
     profileStatus : true,
     name : name,
@@ -122,8 +114,7 @@ this.setState({
       profileModalHandler={this.profileModalHandler}
       deleteChatClickHandlerChannel={this.deleteChatClickHandlerChannel}
       password={this.props.password}
-      textFieldnull={this.state. textFieldnull}
-      />
+      textFieldnull={this.state.textFieldnull}/>
       
      
     </div>
@@ -132,13 +123,3 @@ this.setState({
 };
 
 export default SimpleContainer;
-/*
-{this.props.finalChats}
-     
-     
-           
-  
-     
-<TextField textFieldHandle={this.textFieldHandle}/>
-<Send sendStatus={this.state.sendStatus} handleClick={this.handleClick}/>
-*/

@@ -30,6 +30,7 @@ class Profile extends Component
                updatedBio : '',
                updatedLocation : '',
                updatedDp : '',
+               randomImageGeneratorMessageTitle : 'Generate'
               };
  
         this.closeEditModal=this.closeEditModal.bind(this);
@@ -43,8 +44,32 @@ class Profile extends Component
         this.openEditModalBio=this.openEditModalBio.bind(this);
         this.openEditModalLocation=this.openEditModalLocation.bind(this);
         this.openEditModalSecurity=this.openEditModalSecurity.bind(this);
+        this.generateRandomImageForDp=this.generateRandomImageForDp.bind(this);
        }
           
+       generateRandomImageForDp()
+       {
+              this.setState({
+                     randomImageGeneratorMessageTitle : 'Wait....'
+              });
+
+          fetch('https://source.unsplash.com/random').then(res =>{
+                 if(res.ok){
+
+                        this.setState({
+                               Dp : res.url,
+                               randomImageGeneratorMessageTitle : 'Generate'
+                        })
+                        return res.json();
+                 }
+                 
+                 throw new Error('Request failed :(');
+          },
+          networkError => console.log(networkError.message)
+          );
+        
+       }
+
        componentDidMount()
        {
               this.setState({spinnerForWholePage : true});    
@@ -69,14 +94,13 @@ class Profile extends Component
             }, 700);
            
               })
-              .catch((err)=>console.log(err));
+              .catch((err)=>{});
        }
 
 
        editModalTextChangeHandler(e)
        {
           this.setState({[e.target.name] : e.target.value});
-          console.log(e.target.value);
        }
 
        openEditModalDp()
@@ -119,7 +143,7 @@ class Profile extends Component
               Dp : ''
          });
        }
-     
+   
 
        editDpHandler()
        {
@@ -129,8 +153,8 @@ class Profile extends Component
               firebase.firestore().collection('users').doc(this.props.email).update({
                      url : encryptDp.toString()
               })
-              .then((u)=>{console.log(u);})
-              .catch((err)=>console.log(err));
+              .then((u)=>{})
+              .catch((err)=>{});
      
              this.setState({
                    updatedDp: this.state.Dp
@@ -155,8 +179,8 @@ class Profile extends Component
          firebase.firestore().collection('users').doc(this.props.email).update({
                 username : encrypName.toString()
          })
-         .then((u)=>{console.log(u);})
-         .catch((err)=>console.log(err));
+         .then((u)=>{})
+         .catch((err)=>{});
 
         this.setState({
               updatedUsername : this.state.username
@@ -181,8 +205,8 @@ class Profile extends Component
              firebase.firestore().collection('users').doc(this.props.email).update({
                     info : encryptBio.toString()
              })
-             .then((u)=>{console.log(u);})
-             .catch((err)=>console.log(err));
+             .then((u)=>{})
+             .catch((err)=>{});
     
             this.setState({
               updatedBio : this.state.bio
@@ -206,8 +230,8 @@ class Profile extends Component
              firebase.firestore().collection('users').doc(this.props.email).update({
                     location : encryptLocation.toString()
              })
-             .then((u)=>{console.log(u);})
-             .catch((err)=>console.log(err));
+             .then((u)=>{})
+             .catch((err)=>{});
 
             this.setState({
               updatedLocation : this.state.location
@@ -231,8 +255,8 @@ class Profile extends Component
                             {this.state.spinnerForWholePage ? <Spinner /> : 
                             <div>
                             {this.state.spinner ? <Spinner /> : null}
-              {this.state.editDpStatus ? <DpModal 
-            editDpHandler={this.editDpHandler} updatedDp={this.state.Dp} editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
+              {this.state.editDpStatus ? <DpModal generateRandomImageForDp={this.generateRandomImageForDp}
+          randomImageGeneratorMessageTitle={this.state.randomImageGeneratorMessageTitle}  editDpHandler={this.editDpHandler} updatedDp={this.state.Dp} editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
 
               {this.state.editUsernameStatus ? <UsernameModal 
               editUsernameHandler={this.editUsernameHandler} editModalTextChangeHandler={this.editModalTextChangeHandler}  closeEditModal={this.closeEditModal}/> : null}
@@ -271,55 +295,3 @@ export default Profile;
 
 
 
-/*import React,{Component} from 'react';
-import Card from './cardForProfile';
-import CardForImage from './cardForImage';
-import EditIcon from '@material-ui/icons/Edit';
-import EditAttributesIcon from '@material-ui/icons/EditAttributes';
-import EditLocationIcon from '@material-ui/icons/EditLocation';
-import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
-import SecurityIcon from '@material-ui/icons/Security';
-import Button from '@material-ui/core/Button';
-const Profile = () =>
-{
-       const image=( <div style={{
-        textAlign: 'center'
-        }}>           
-<img src='https://images.unsplash.com/photo-1593642533144-3d62aa4783ec?ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHw2fHx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60' alt="Profile Image"
-style={{
-    objectFit : 'contain'
-    }}/>
-</div>);
-     const MORE=(<Button color="secondary" size="small">
-     More
-   </Button>
- );
-        return (
-            <div style={{textAlign : 'center'}}>
-                <br />
-                <br />
-                <br />
-                <br />
-         <CardForImage item={<EditIcon />}/>
-         <br />
-                <br />
-                <br />
-         <Card type={<EditIcon />} item="Jagannath R Kulakarni"/>
-                <br />
-                <br />
-         <Card type={<EditIcon />} item="#Awesome"/>
-                <br />
-                <br />
-         <Card type={<EditIcon />} item="Mysore"/>
-                <br />
-                <br />
-        <Card type={MORE} item='Security'/>
-        <br />
-                <br />
-                
-            </div>
-        );
-    
-};
-export default Profile;
-*/

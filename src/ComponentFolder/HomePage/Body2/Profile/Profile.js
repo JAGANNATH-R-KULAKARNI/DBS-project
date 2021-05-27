@@ -1,7 +1,4 @@
 import React,{Component} from 'react';
-import AvatarImage from './ProfileElements/Avatar';
-import ButtonOK from './ProfileElements/Button';
-import Chip from './ProfileElements/chip';
 import Card from './ProfileElements/card';
 
 class Profile extends Component

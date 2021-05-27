@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import TextField from './textField';
 import TextField2 from './textField2';
 import Send from './sendButton';
-import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 class TextFieldMid extends Component{
 
@@ -16,9 +15,7 @@ class TextFieldMid extends Component{
     }
 
     clicked()
-    {
-        console.log("clicked");
-      
+    { 
         this.props.handleClick();
 
         this.setState({

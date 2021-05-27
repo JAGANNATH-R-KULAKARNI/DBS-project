@@ -1,15 +1,9 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import Avatar from '@material-ui/core/Avatar';
-import {BrowserRouter as Router,Switch,Route,Link} from "react-router-dom";
+import {BrowserRouter as Router,Link} from "react-router-dom";
 import Tooltip from '@material-ui/core/Tooltip';
 import HttpsIcon from '@material-ui/icons/Https';
-import Divider from '@material-ui/core/Divider';
-import Box from '@material-ui/core/Box';
 import Card from './card';
 import firebase from '../../../../Firebase/firebase';
 import CryptoJS from "react-native-crypto-js";
@@ -40,8 +34,6 @@ class ButtonSizes extends React.Component
  {
   firebase.firestore().collection('users').doc(this.props.email).get()
   .then((u)=>{
-      console.log(u.data());
-
      var DecryptedUUsername = CryptoJS.AES.decrypt(u.data()['username'],this.props.password);
      
      var DecryptedIInfo = CryptoJS.AES.decrypt(u.data()['info'],this.props.password);
@@ -59,11 +51,10 @@ class ButtonSizes extends React.Component
      dislikes : this.props.dislikes
       })
     })
-  .catch((err)=>{console.log(err)});
+  .catch((err)=>{});
 
   firebase.firestore().collection('emotions').doc('likes').collection(this.props.emailForLikesAndDislikes)
   .onSnapshot(querySnapshot => {
-    console.log("here lol likes");
  const data = querySnapshot.docs.map(doc => ({
      ...doc.data(),
      id: doc.id,
@@ -76,6 +67,8 @@ class ButtonSizes extends React.Component
    {
      like=true;
    }
+
+   return null;
  });
 
  this.setState({
@@ -87,7 +80,6 @@ class ButtonSizes extends React.Component
 
   firebase.firestore().collection('emotions').doc('dislikes').collection(this.props.emailForLikesAndDislikes)
   .onSnapshot(querySnapshot => {
-    console.log("here lol dislikes");
  const data = querySnapshot.docs.map(doc => ({
      ...doc.data(),
      id: doc.id,
@@ -100,6 +92,7 @@ class ButtonSizes extends React.Component
    {
      dislike=true;
    }
+   return null;
  });
 
  this.setState({
@@ -117,8 +110,8 @@ class ButtonSizes extends React.Component
     likes : this.state.likes,
     dislikes : this.state.dislikes
 })
-.then((u)=>{console.log(u);})
-.catch((err)=>console.log(err));
+.then((u)=>{})
+.catch((err)=>{});
 
  if(this.state.likeStatus)
  {
@@ -126,15 +119,15 @@ class ButtonSizes extends React.Component
   .set({
     exactTimeToSort : this.props.exactTimeToSort
   })
-  .then((u)=>console.log(u))
-  .catch((err)=>console.log(err));
+  .then((u)=>{})
+  .catch((err)=>{});
  }
  else
  {
   firebase.firestore().collection('emotions').doc('likes').collection(this.props.emailForLikesAndDislikes).doc(this.props.exactTimeToSort.toString())
   .delete()
-  .then((u)=>console.log(u))
-  .catch((err)=>console.log(err));
+  .then((u)=>{})
+  .catch((err)=>{});
  }
  if(this.state.dislikeStatus)
  {
@@ -142,15 +135,15 @@ class ButtonSizes extends React.Component
   .set({
     exactTimeToSort : this.props.exactTimeToSort
   })
-  .then((u)=>console.log(u))
-  .catch((err)=>console.log(err));
+  .then((u)=>{})
+  .catch((err)=>{});
  }
  else
  {
   firebase.firestore().collection('emotions').doc('dislikes').collection(this.props.emailForLikesAndDislikes).doc(this.props.exactTimeToSort.toString())
   .delete()
-  .then((u)=>console.log(u))
-  .catch((err)=>console.log(err));
+  .then((u)=>{})
+  .catch((err)=>{});
  }
  }
 

@@ -1,15 +1,27 @@
-import React,{Component} from 'react';
+import React from 'react';
 import Layout from './ComponentFolder/Layout/Layout';
+import ErrorBoundry from './ErrorBoundries/ErrorBoundries';
 
-const App = () =>{
+class App extends React.Component{
+
+  componentDidMount()
+  {
+    console.log("JAGANNATH R KULAKARNI");
+    console.log("THE NATIONAL INSTITUTE OF ENGINEERING");
+    console.log("INFORMATION SCIENCE ENGINEERING");
+    console.log("Hello vro :)");
+  }
+  render()
+  {
   return (
     <div>
+      <ErrorBoundry>
       <Layout />
-      <div   id="chatsTextField"/>
+      <div/>
+      </ErrorBoundry>
     </div>
   );
+  }
 };
 
 export default App;
-
-//Go to chat engine.io

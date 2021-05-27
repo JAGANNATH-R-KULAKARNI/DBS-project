@@ -106,5 +106,12 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^11.2.7",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "jest-dom": "^4.0.0",
+    "react-test-render": "^1.1.2"
   }
 }

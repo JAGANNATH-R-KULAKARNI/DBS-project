@@ -1,13 +1,10 @@
-import React from 'react';
 import {useRef,useState,useEffect} from 'react';
 
 const useFitText = () => {
     const MIN_FONT_SIZE = 20;
     const MAX_FONT_SIZE = 100;
     const RESOLUTION = 5;
-  
     const ref = useRef(null);
-  
     const [state, setState] = useState({
       fontSize: MAX_FONT_SIZE,
       fontSizePrev: MIN_FONT_SIZE,
@@ -24,8 +21,6 @@ const useFitText = () => {
           ref.current.scrollWidth > ref.current.offsetWidth);
       const isAsc = fontSize > fontSizePrev;
   
-      // return if the font size has been adjusted "enough" (change within RESOLUTION)
-      // reduce font size by one increment if it's overflowing
       if (isDone) {
         if (isOverflow) {
           const fontSizeNew =
@@ -42,7 +37,6 @@ const useFitText = () => {
         return;
       }
   
-      // binary search to adjust font size
       let delta;
       let newMax = fontSizeMax;
       let newMin = fontSizeMin;

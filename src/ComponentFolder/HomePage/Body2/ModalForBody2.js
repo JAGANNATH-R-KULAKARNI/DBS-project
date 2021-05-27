@@ -7,7 +7,6 @@ import Alert from './Body2Alert';
 class modal extends Component
 {
    
-   
     render()
     {
         return ( 

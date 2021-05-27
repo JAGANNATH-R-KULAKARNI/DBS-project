@@ -115,7 +115,6 @@ class Layout extends Component
         this.setState({loader : true});
         fire.auth().signInWithEmailAndPassword(this.state.email,this.state.password)
         .then((u) =>{
-            console.log(u);
             this.setState({
                 loader : false,
                 isSigninpage : false,
@@ -153,7 +152,6 @@ class Layout extends Component
      
        fire.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
        .then((u) =>{
-        console.log(u);
         fire.firestore().collection("users").doc(this.state.email).set({
             username : encrypName.toString(),
             info : encrypInfo.toString(),
@@ -161,7 +159,6 @@ class Layout extends Component
             location : '',
             url : ''
         }).then(() => {
-            console.log("Document successfully written!");
             this.setState({
                 loader : false,
                 isSigninpage : true,
@@ -172,7 +169,6 @@ class Layout extends Component
             }); 
         })
         .catch((err)=>{
-            console.log(err);
             this.setState({
                 loader : false,
                 messageType : 'error',
@@ -184,7 +180,6 @@ class Layout extends Component
 
      })
        .catch((err) =>{
-           console.log(err);
            this.setState({
             loader : false,
             messageType : 'error',
