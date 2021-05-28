@@ -98,7 +98,7 @@ export default function SignUp(props) {
                 variant="outlined"
                 fullWidth
                 name="info"
-                label="More info about you"
+                label="your one word hashtag"
                 type="text"
                 id="text"
                 autoComplete="text"

@@ -144,9 +144,9 @@ class Layout extends Component
         var today = new Date();
          var month = today.getMonth() + 1;// it gives previos month so add 1
         var time = today.getDate()+'/'+month+'/'+today.getFullYear();
-        var encrypName = CryptoJS.AES.encrypt(this.state.username,this.state.password);
-        var encrypDateOfSignUp = CryptoJS.AES.encrypt(time,this.state.password);
-        var encrypInfo= CryptoJS.AES.encrypt(this.state.info,this.state.password);
+        var encrypName = CryptoJS.AES.encrypt(this.state.username,this.props.Info);
+        var encrypDateOfSignUp = CryptoJS.AES.encrypt(time,this.props.Info);
+        var encrypInfo= CryptoJS.AES.encrypt(this.state.info,this.props.Info);
         
         this.setState({loader : true})
      
@@ -222,7 +222,7 @@ class Layout extends Component
 
             const LOADER= <Loader />
             const homePage=(this.state.homePage ? 
-            <Home logOutHandle={this.logOutHandle} email={this.state.email} password={this.state.password}/> : LoginPage);
+            <Home logOutHandle={this.logOutHandle} email={this.state.email} password={this.props.Info}/> : LoginPage);
 
         return (
             <div>

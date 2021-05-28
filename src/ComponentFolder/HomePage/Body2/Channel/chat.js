@@ -23,7 +23,9 @@ class ButtonSizes extends React.Component
      likeStatus : false,
      dislikeStatus : false,
      isLikesStatusAvailable : false,
-     isDislikesStatusAvailable : false
+     isDislikesStatusAvailable : false,
+     liked : 0,
+     disliked : 0
    };
    
    this.likeHandler=this.likeHandler.bind(this);
@@ -106,12 +108,21 @@ class ButtonSizes extends React.Component
 
  componentWillUnmount()
  {
-  firebase.firestore().collection('messages').doc(this.props.exactTimeToSort.toString()).update({
-    likes : this.state.likes,
-    dislikes : this.state.dislikes
-})
-.then((u)=>{})
-.catch((err)=>{});
+   firebase.firestore().collection('messages').doc(this.props.exactTimeToSort.toString()).get()
+   .then((u)=>{
+     console.log(u);
+     console.log(u.data()['likes']);
+     firebase.firestore().collection('messages').doc(this.props.exactTimeToSort.toString()).update({
+      likes : u.data()['likes']+this.state.liked,
+      dislikes : u.data()['dislikes']+this.state.disliked
+  })
+  .then((u)=>{})
+  .catch((err)=>{});
+   })
+   .catch((err)=>{
+     
+   })
+
 
  if(this.state.likeStatus)
  {
@@ -157,12 +168,25 @@ class ButtonSizes extends React.Component
    {
     dislikeStatus=false;
     dislikes--;
+    this.setState({
+      disliked : this.state.disliked-1
+    })
    }
 
    if(this.state.likeStatus)
+   {
    count--;
+   this.setState({
+     liked : this.state.liked-1
+   })
+   }
    else
+   {
    count++;
+   this.setState({
+     liked : this.state.liked + 1 
+   })
+   }
 
   this.setState({
     likes : count,
@@ -183,11 +207,24 @@ class ButtonSizes extends React.Component
   {
     likeStatus=false;
     likes--;
+    this.setState({
+      liked : this.state.liked-1
+    })
   }
   if(this.state.dislikeStatus)
+  {
   count--;
+  this.setState({
+    disliked : this.state.disliked-1
+  })
+  }
   else
+  {
   count++;
+  this.setState({
+    disliked : this.state.disliked+1
+  })
+}
 
  this.setState({
    dislikes : count,

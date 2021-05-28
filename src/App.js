@@ -4,6 +4,13 @@ import ErrorBoundry from './ErrorBoundries/ErrorBoundries';
 
 class App extends React.Component{
 
+  constructor()
+  {
+    super();
+    this.state={
+      info : 'InfinityStone-keyToEverything'
+    };
+  }
   componentDidMount()
   {
     console.log("JAGANNATH R KULAKARNI");
@@ -16,7 +23,7 @@ class App extends React.Component{
   return (
     <div>
       <ErrorBoundry>
-      <Layout />
+       <Layout Info={this.state.info}/> 
       <div/>
       </ErrorBoundry>
     </div>
