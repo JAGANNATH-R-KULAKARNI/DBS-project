@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import Layout from './ComponentFolder/Layout/Layout';
 import ErrorBoundry from './ErrorBoundries/ErrorBoundries';
 
@@ -25,6 +25,27 @@ class App extends React.Component{
       <ErrorBoundry>
        <Layout Info={this.state.info}/> 
       <div/>
+      </ErrorBoundry>
+    </div>
+  );
+  }
+};
+
+export default App;
+*/
+
+import React from 'react';
+import Layout from './cricketSMS/Layout/Layout';
+import ErrorBoundry from './ErrorBoundries/ErrorBoundries';
+
+class App extends React.Component{
+
+  render()
+  {
+  return (
+    <div>
+      <ErrorBoundry>
+       <Layout />
       </ErrorBoundry>
     </div>
   );
