@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Photo from './image';
+import PlayedTeams from './playedTeams';
 
 const useStyles = makeStyles({
   table: {
@@ -30,6 +31,7 @@ export default function BasicTable(props) {
     createData('Maximum Capacity', props.data['maxCapacity']),
     createData('Operator', props.data['operator']),
     createData('Owner', props.data['owner']),
+    createData('HomeGround for ', <PlayedTeams name={props.nameForTeams}/>),
   ];
   return (
     <TableContainer component={Paper}>

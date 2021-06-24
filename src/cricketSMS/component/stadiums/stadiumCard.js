@@ -70,7 +70,9 @@ export default function RecipeReviewCard(props) {
         }
         action={
           <IconButton aria-label="settings">
+            <div onClick={()=>props.editHandler(props.name)}>
             <EditIcon />
+            </div>
           </IconButton>
         }
         title={props.name}

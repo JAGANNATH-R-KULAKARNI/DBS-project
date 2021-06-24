@@ -81,6 +81,9 @@ class Players extends React.Component
 
     createNewPlayer()
     {
+        this.setState({
+            spinnerStatus : false,
+        })
         var docData = {
             name : this.state.name,
             born :  this.state.Born, 
@@ -99,7 +102,12 @@ class Players extends React.Component
   
   
           firebase.firestore().collection('players').doc(this.state.name).set(docData).then(() => {
-              this. openEditModal();
+            setTimeout(() => {
+                this.setState({
+                    spinnerStatus : false
+                });
+              }, 1000);
+            this. openEditModal();
           })
           .catch((err)=>{
           
@@ -107,6 +115,9 @@ class Players extends React.Component
     }
     saveEditedTexts()
     {
+        this.setState({
+            spinnerStatus : true,
+        })
         console.log("to save")
         var docData = {
           born :  this.state.Born, 
@@ -125,6 +136,11 @@ class Players extends React.Component
 
 
         firebase.firestore().collection('players').doc(this.state.nameForUpload).update(docData).then(() => {
+            setTimeout(() => {
+                this.setState({
+                    spinnerStatus : false
+                });
+              }, 400);
             this.openEditModal();
         })
         .catch((err)=>{
@@ -212,10 +228,10 @@ class Players extends React.Component
           setTimeout(() => {
             this.setState({
                 dataForModal : res.data(),
+                spinnerStatus : false,
                 modelStatus : !this.state.modelStatus,
-                spinnerStatus : false
             });
-          }, 1000);
+          }, 300);
        
       })
       .catch((err)=>{
@@ -223,7 +239,7 @@ class Players extends React.Component
             this.setState({
                 spinnerStatus : false
             });
-          }, 1000);
+          }, 300);
       });
     }
 

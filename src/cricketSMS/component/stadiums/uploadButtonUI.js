@@ -17,11 +17,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FloatingActionButtons() {
+export default function FloatingActionButtons(props) {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} onClick={props.openCreateModal}>
       <Fab color="primary" aria-label="add">
         <AddIcon />
       </Fab>

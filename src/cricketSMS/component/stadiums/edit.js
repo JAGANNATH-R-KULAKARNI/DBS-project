@@ -39,17 +39,17 @@ export default function FullScreenDialog(props) {
 
   const handleClose = () => {
     setOpen(false);
-    props.openEditModal();
+    props.closeHandler();
   };
 
   const handleCloseForSave = ()=>{
     setOpen(false);
-    props.saveEditedTexts();
+    props.saveHandler();
   }
 
   const handleCloseForDelete = () =>{
     setOpen(false);
-    props.deletePlayerHandler();
+    props.deleteHandler();
   }
   return (
     <div>
@@ -60,7 +60,7 @@ export default function FullScreenDialog(props) {
               <CloseIcon />
             </IconButton>
             <Typography variant="h5" className={classes.title}>
-          {props.status ?  <Button   onClick={handleCloseForDelete}> Delete</Button> : null}
+          {props.deleteButtonStatus ?  <Button   onClick={handleCloseForDelete}> Delete</Button> : null}
             </Typography>
             <Button autoFocus color="inherit" onClick={handleCloseForSave}>
               Save
@@ -76,7 +76,7 @@ export default function FullScreenDialog(props) {
    >
     <Grid item xs={0}>
         <List>
-          {props.status ? null :
+          {props.deleteButtonStatus ? null :
           <div>
         <ListItem>
             <ButtonForEdit label='Name' name='name' textChangeHandler={props.textChangeHandler}/>
@@ -85,61 +85,33 @@ export default function FullScreenDialog(props) {
           </div>
 }
           <ListItem>
-            <ButtonForEdit label='Born' name='Born' textChangeHandler={props.textChangeHandler}/>
+            <ButtonForEdit label='Architect' name='architect' textChangeHandler={props.textChangeHandler}/>
           </ListItem>
           <Divider />
           <ListItem>
-            <ButtonForEdit label='Birth Place' name='Birth_Place' textChangeHandler={props.textChangeHandler}/>
+            <ButtonForEdit label='Establishment' name='establishment' textChangeHandler={props.textChangeHandler}/>
           </ListItem>
           <Divider />
           <ListItem>
-            <ButtonForEdit label='Age' name='Age' textChangeHandler={props.textChangeHandler}/>
+            <ButtonForEdit label='Location' name='location' textChangeHandler={props.textChangeHandler}/>
           </ListItem>
           <Divider />
           <ListItem>
-            <ButtonForEdit label='Country' name='Country' textChangeHandler={props.textChangeHandler}/>
+            <ButtonForEdit label='MaxCapacity' name='maxCapacity' textChangeHandler={props.textChangeHandler}/>
           </ListItem>
           <Divider />
           <ListItem>
-            <ButtonForEdit label='Cricket Rankings' name='Cricket_Rankings' textChangeHandler={props.textChangeHandler}/>
+            <ButtonForEdit label='Operator' name='operator' textChangeHandler={props.textChangeHandler}/>
           </ListItem>
           <Divider />
           <ListItem>
-            <ButtonForEdit label='T20 rankings' name='T20_rankings' textChangeHandler={props.textChangeHandler}/>
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ButtonForEdit label='ODI rankings' name='ODI_rankings' textChangeHandler={props.textChangeHandler}/>
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ButtonForEdit label='Test rankings' name='Test_rankings' textChangeHandler={props.textChangeHandler}/>
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ButtonForEdit label='Batting style' name='Batting_style' textChangeHandler={props.textChangeHandler}/>
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ButtonForEdit label='Bowling style' name='Bowling_style' textChangeHandler={props.textChangeHandler}/>
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ButtonForEdit label='Jersey Number' name='Jersey_Number' textChangeHandler={props.textChangeHandler}/>
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ButtonForEdit label='Total runs' name='Total_runs' textChangeHandler={props.textChangeHandler}/>
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ButtonForEdit label='Total wickets' name='Total_wickets' textChangeHandler={props.textChangeHandler}/>
+            <ButtonForEdit label='Owner' name='owner' textChangeHandler={props.textChangeHandler}/>
           </ListItem>
           <Divider />
           <ListItem>
             <ButtonForEdit label='Photo' name='image' textChangeHandler={props.textChangeHandler}/>
           </ListItem>
-          <Divider />
+         <Divider />
         </List>
         </Grid>
         </Grid>

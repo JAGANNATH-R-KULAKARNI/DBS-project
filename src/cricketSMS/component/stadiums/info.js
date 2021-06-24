@@ -47,7 +47,7 @@ export default function ScrollDialog(props) {
             ref={descriptionElementRef}
             tabIndex={-1}
           >
-            <Table data={props.data}/>
+            <Table data={props.data} nameForTeams={props.nameForTeams}/>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
