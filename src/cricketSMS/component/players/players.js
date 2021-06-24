@@ -4,6 +4,7 @@ import PlayersCard from './playerCard';
 import InfoModal from './info';
 import UploadButton from './uploadButtonUI';
 import Edit from './edit';
+import Spinner from '../spinner/spinner';
 
 class Players extends React.Component
 {
@@ -11,6 +12,7 @@ class Players extends React.Component
     {
         super();
         this.state={
+            spinnerStatus : false,
             playersList : null,
             modelStatus : false,
             dataForModal : null,
@@ -132,10 +134,18 @@ class Players extends React.Component
 
     deletePlayerHandler()
     {
+        this.setState({
+            spinnerStatus : true
+          })
         firebase.firestore().collection('players').doc(this.state.nameForUpload).delete()
         .then((u)=>{
             console.log('deleted');
             console.log(u);
+            setTimeout(() => {
+                this.setState({
+                    spinnerStatus : false
+                });
+              }, 1000);
             this.openEditModal();
         })
         .catch((err)=>{
@@ -193,16 +203,28 @@ class Players extends React.Component
     modelStatusHandler(name)
     {
       
-
+      this.setState({
+        spinnerStatus : !this.state.modelStatus
+      })
       firebase.firestore().collection('players').doc(name).get()
       .then((res)=>{
           console.log(res.data());
-        this.setState({
-            dataForModal : res.data(),
-            modelStatus : !this.state.modelStatus,
-        });
+          setTimeout(() => {
+            this.setState({
+                dataForModal : res.data(),
+                modelStatus : !this.state.modelStatus,
+                spinnerStatus : false
+            });
+          }, 1000);
+       
       })
-      .catch((err)=>console.log(err));
+      .catch((err)=>{
+        setTimeout(() => {
+            this.setState({
+                spinnerStatus : false
+            });
+          }, 1000);
+      });
     }
 
     componentDidMount()
@@ -226,7 +248,8 @@ class Players extends React.Component
         
         return (
             <div>
-
+                {this.state.spinnerStatus ? <Spinner /> : 
+                <div>
                {this.state.openEditModal ? <Edit deletePlayerHandler={this.deletePlayerHandler} status={this.state.editOnly} saveEditedTexts={this.state.editOnly ? this.saveEditedTexts : this.createNewPlayer} data={this.state.editOnly ? this.state.teamList : null} openEditModal={this.openEditModal} textChangeHandler={this.textChangeHandler}/> : null}
                 {this.state.modelStatus && this.state.dataForModal? <InfoModal modelStatusHandler={this.modelStatusHandler} data={this.state.dataForModal}/> : null}
                 <UploadButton openEditModal={this.openEditModal}/>
@@ -239,6 +262,8 @@ class Players extends React.Component
             </div>
             
            }) : null}
+           </div>
+           }
             </div>
 
         );
