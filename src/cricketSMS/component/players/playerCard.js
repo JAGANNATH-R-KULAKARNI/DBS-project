@@ -15,7 +15,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import Grid from '@material-ui/core/Grid';
 
@@ -71,7 +71,9 @@ export default function RecipeReviewCard(props) {
         }
         action={
           <IconButton aria-label="delete">
-            <DeleteIcon />
+            <div onClick={()=>props.openEditModalForExisting(props.name)}>
+            <EditIcon />
+            </div>
           </IconButton>
         }
         title={props.name}

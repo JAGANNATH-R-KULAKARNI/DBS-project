@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Photo from './image';
+import PlayedTeams from './playedTeams';
 
 const useStyles = makeStyles({
   table: {
@@ -24,10 +25,10 @@ function createData(name, calories, fat, carbs, protein) {
 export default function BasicTable(props) {
   const classes = useStyles();
   const rows = [
-    createData('Born', props.data['dateOfBirth']),
+    createData('Born', props.data['born']),
     createData('Birth Place', props.data['birthPlace']),
     createData('Age', props.data['age']),
-    createData('country', props.data['country']),
+    createData('Country', props.data['country']),
     createData('Cricket Rankings', props.data['criketerRanking']),
     createData('T20 rankings', props.data['rankings'][0]),
     createData('ODI rankings', props.data['rankings'][1]),
@@ -37,6 +38,7 @@ export default function BasicTable(props) {
     createData('Jersey Number', props.data['jerseyNumber']),
     createData('Total runs', props.data['totalRuns']),
     createData('Total wickets', props.data['totalWickets']),
+    createData('Teams played', <PlayedTeams name={props.data['name']}/>),
   ];
   return (
     <TableContainer component={Paper}>

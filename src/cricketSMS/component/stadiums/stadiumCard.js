@@ -15,7 +15,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import Grid from '@material-ui/core/Grid';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
@@ -70,7 +70,7 @@ export default function RecipeReviewCard(props) {
         }
         action={
           <IconButton aria-label="settings">
-            <DeleteIcon />
+            <EditIcon />
           </IconButton>
         }
         title={props.name}

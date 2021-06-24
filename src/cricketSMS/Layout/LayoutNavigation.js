@@ -37,9 +37,7 @@ export default function SimpleBottomNavigation(props) {
       <BottomNavigationAction label="Teams" icon={<GroupIcon />} />
       <BottomNavigationAction label="Stadiums" icon={<LocationOnIcon />} />
     </BottomNavigation>
-    <br />
-    <br />
-    <br />
+
     <div style={{textAlign : 'center'}}>
     {ELEMENT}
     </div>
